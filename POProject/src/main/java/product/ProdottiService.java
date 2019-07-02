@@ -1,4 +1,4 @@
-package parseJSON;
+package product;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -10,20 +10,22 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import product.Prodotti;
+import org.springframework.stereotype.Component;
 
+import parseJSON.DownloadCSV;
 
+@Component
+public class ProdottiService {
 
-public class parseJSON {
-	public static void main(String[] args) {
-		
+	public static List<Prodotti> products = new ArrayList<>();
+	
+	static {
 		DownloadCSV d=new DownloadCSV("http://data.europa.eu/euodp/data/api/3/action/package_show?id=eu-prices-for-selected-dairy-products");
 		
 		String path=d.scarica();
 		try{
 			FileReader fr=new FileReader(path);
 			BufferedReader br= new BufferedReader(fr);
-			List<Prodotti> products = new ArrayList<>();
 			 //String data = "";
 			String[] data;
 			 String line = "";
@@ -43,7 +45,6 @@ public class parseJSON {
 				 br.close();
 			 }
 			System.out.println( "OK" );
-			stampa(products);
 		}catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -57,21 +58,17 @@ public class parseJSON {
 	    }
 	}
 	
-	public static void stampa(List<Prodotti> p) {
-		for (int i = 0; i < p.size(); i++) 
-        { 
-            // the data received from arraylist is of Data type 
-            // which is custom (int, String, int, long) 
-            // based on class Data 
-  
-            Prodotti data = p.get(i); 
-  
-            // data variable of type Data has four primitive datatypes 
-            // roll -int 
-            // name- String 
-            // marks- int 
-            // phone- long 
-            System.out.println(data.getProductCode()+" "+data.getDesc()+" "+data.getMarketPrice());
-        } 
+
+	public List<Prodotti> getAllProducts() {
+		return products;
 	}
+	
+	/*public List<Prodotti> getPByCode(int productCode) {
+		for (Prodotti p : products) {
+			if (p.getProductCode()==productCode) {
+				return p;
+			}
+		}
+		return null;
+	}*/
 }

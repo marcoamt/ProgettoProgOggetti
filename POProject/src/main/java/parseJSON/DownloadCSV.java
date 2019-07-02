@@ -1,6 +1,7 @@
 package parseJSON;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -24,7 +25,9 @@ public class DownloadCSV {
 	}
 	
 	public String scarica() {
+        	String path="market-prices-dairy-products_en.csv";
 		try {
+
 			
 			URLConnection openConnection = new URL(url).openConnection();
 			openConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
@@ -54,18 +57,23 @@ public class DownloadCSV {
 			        String urlD = (String)o1.get("url");
 			        System.out.println(format + " | " + urlD);
 			        if(format.endsWith("/CSV")) {
+			    		File f= new File(path);
+			    		if(!f.exists()) {
 			        	down(urlD, "market-prices-dairy-products_en.csv");
+			        	System.out.println( "Download effettuato" );
+			    		}
+			    		else {
+			    			System.out.println( "File esistente" );
+			    		}
 			        }
 			    }
 			}
-			System.out.println( "OK" );
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "market-prices-dairy-products_en.csv";
-		
+		return path;
 	}
 	
 	public static void down(String url, String fileName) throws Exception {
