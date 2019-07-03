@@ -44,5 +44,11 @@ public class ProdottiController {
 		return prodottiService.getProductByCode(filter);
 	}
 	
+	@GetMapping("/stats")
+	public Item getProd(@RequestParam(value="field", required=false) String field){
+		return prodottiService.getProduct(field);
+	}
+	
+	
 	
 }
