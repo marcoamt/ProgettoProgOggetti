@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -18,6 +19,7 @@ import parseJSON.DownloadCSV;
 public class ProdottiService {
 
 	public static List<Prodotti> products = new ArrayList<>();
+	public static List<Metadati> meta = new ArrayList<>();
 	
 	static {
 		DownloadCSV d=new DownloadCSV("http://data.europa.eu/euodp/data/api/3/action/package_show?id=eu-prices-for-selected-dairy-products");
@@ -36,8 +38,16 @@ public class ProdottiService {
 				   /*data+= line+"\n";
 				   System.out.println( line );*/
 				   if(i!=0) {
-				   data=line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"); 
+				   data=line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"); //per non fare il parsing dove la stringa è tra ""
 				   	products.add(new Prodotti(data[0],data[1],Integer.parseInt(data[2]),data[3],data[4],data[5],data[6],Integer.parseInt(data[7]),Double.parseDouble(data[8])));
+				   }else {
+					   data=line.split(","); 
+					   int cont=0;
+					   for(Field a : Prodotti.class.getDeclaredFields())//per ogni attributo della classe assoccio il suo nome nel dataset e il suo tipo
+					   {
+						   meta.add(new Metadati(a.getName(),data[cont],a.getType().getSimpleName())); //aggiungo i metadata di ogni attributo in un array list
+						   cont++;
+					   }
 				   }
 				   i++;
 			   }
@@ -61,6 +71,10 @@ public class ProdottiService {
 
 	public List<Prodotti> getAllProducts() {
 		return products;
+	}
+	
+	public List<Metadati> getAllMeta(){
+		return meta;
 	}
 	
 	/*public List<Prodotti> getPByCode(int productCode) {

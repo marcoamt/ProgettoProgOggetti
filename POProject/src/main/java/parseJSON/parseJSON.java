@@ -4,12 +4,14 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import product.Metadati;
 import product.Prodotti;
 
 
@@ -24,6 +26,7 @@ public class parseJSON {
 			FileReader fr=new FileReader(path);
 			BufferedReader br= new BufferedReader(fr);
 			List<Prodotti> products = new ArrayList<>();
+			List<Metadati> meta = new ArrayList<>();
 			 //String data = "";
 			String[] data;
 			 String line = "";
@@ -36,6 +39,13 @@ public class parseJSON {
 				   if(i!=0) {
 				   data=line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"); 
 				   	products.add(new Prodotti(data[0],data[1],Integer.parseInt(data[2]),data[3],data[4],data[5],data[6],Integer.parseInt(data[7]),Double.parseDouble(data[8])));
+				   }else {
+					   data=line.split(","); 
+					   Field [] b=Prodotti.class.getDeclaredFields();
+					   for(Field a : Prodotti.class.getDeclaredFields())
+					   {
+						   meta.add(new Metadati(a.getName(),data[0],a.getType().getTypeName()));
+					   }
 				   }
 				   i++;
 			   }

@@ -19,9 +19,14 @@ public class ProdottiController {
         return "home";
     }
 
-	@GetMapping("/prodotti")
+	@GetMapping("/data")
 	public List<Prodotti> getProducts() {
 		return prodottiService.getAllProducts();
+	}
+	
+	@GetMapping("/metadata")
+	public List<Metadati> getAllMeta() {
+		return prodottiService.getAllMeta();
 	}
 	
 	/*@GetMapping("/prodotti/{productCode}")
