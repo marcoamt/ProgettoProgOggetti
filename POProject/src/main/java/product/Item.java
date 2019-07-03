@@ -1,6 +1,6 @@
 package product;
 
-public class Operation {
+public class Item {
 	
 	private String field;
 	private double avg;
@@ -8,9 +8,9 @@ public class Operation {
 	private double max;
 	private double std;
 	private double sum;
-	private double count;
+	private int count;
 	
-	public Operation(String field, double avg, double min, double max, double std, double sum, double count) {
+	public Item(String field, double avg, double min, double max, double std, double sum, int count) {
 		this.field = field;
 		this.avg = avg;
 		this.min = min;
@@ -44,7 +44,7 @@ public class Operation {
 		return sum;
 	}
 
-	public double getCount() {
+	public int getCount() {
 		return count;
 	}
 	
