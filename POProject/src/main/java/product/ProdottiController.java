@@ -27,7 +27,7 @@ public class ProdottiController {
 		return prodottiService.getAllMeta();
 	}
 	
-	/*@GetMapping("/prodotti")
+	@GetMapping("/prodotti")
 	public List<Prodotti> prodottiFilterPrice(@RequestParam(value="code", required=false) String productCode,@RequestParam(value="pmin", required=false) String PMIN,@RequestParam(value="pmax", required=false)String PMAX){
 		if(productCode ==null){
 			return prodottiService.getAllProducts();
@@ -36,7 +36,7 @@ public class ProdottiController {
 			return prodottiService.getProdByPrice(productCode,PMIN,PMAX);
 
 		}
-	}*/
+	}
 	
 	//estrae prodotti con codice = filter
 	@GetMapping("/prodotti/{filter}")
@@ -44,7 +44,7 @@ public class ProdottiController {
 		return prodottiService.getProductByCode(filter);
 	}
 	
-	@GetMapping("/prodotti")
+	@GetMapping("/stats")
 	public Item getProd(@RequestParam(value="field", required=false) String field){
 		return prodottiService.getProduct(field);
 	}

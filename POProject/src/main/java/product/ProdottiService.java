@@ -108,6 +108,50 @@ public class ProdottiService {
 		return prova;
 	}
 
+	public Item getProduct(String field) {
+
+		List<Prodotti> prodotti = getAllProducts();
+		List<Double> prezzi=new ArrayList<>();
+		double avg=0, min=0, max=0, std=0, sum=0;
+		int count = 0;
+		
+		for(Prodotti p: prodotti) {
+			sum+=p.getMarketPrice();
+			count++;
+			prezzi.add(p.getMarketPrice());
+		}
+		avg=sum/count;
+		max =max(prezzi);
+		min =min(prezzi);
+		
+		return new Item(field, avg, min, max, std, sum, count);
+	}
+
+	public static double max(List<Double> p) {
+		
+		Double mx=p.get(0);
+		for(int i=1;i<p.size();i++) {
+		if(p.get(i)>mx)
+		mx=p.get(i);
+
+		}
+		return mx;
+		
+	}
+	
+
+	public static double min(List<Double> p) {
+		
+		Double mn=p.get(0);
+		for(int i=1;i<p.size();i++) {
+		if(p.get(i)<mn)
+		mn=p.get(i);
+
+		}
+		return mn;
+		
+	}
+	
 	
 	
 	
