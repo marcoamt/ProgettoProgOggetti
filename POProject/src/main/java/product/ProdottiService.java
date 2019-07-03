@@ -10,7 +10,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
 
 import parseJSON.DownloadCSV;
@@ -123,6 +128,7 @@ public class ProdottiService {
 		avg=sum/count;
 		max =max(prezzi);
 		min =min(prezzi);
+		std = std(prezzi, avg);
 		
 		return new Item(field, avg, min, max, std, sum, count);
 	}
@@ -151,6 +157,30 @@ public class ProdottiService {
 		return mn;
 		
 	}
+	
+	public static double std(List<Double> p, double avg) {
+		double somm=0;
+		for(Double pr:p) {
+			somm+=Math.pow((pr-avg),2);
+		}
+		
+		return Math.sqrt(somm/p.size());
+	}
+
+
+	/*public List<Prodotti> getProductByCode2(String filter) {
+		try {
+			JSONObject obj = (JSONObject) JSONValue.parseWithException(filter);
+			Set<String> keys =obj.keySet();
+			for(String key:keys) {
+			    System.out.println("Key :: "+key +", Value :: "+obj.get(key));;
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return null;
+	}*/
 	
 	
 	

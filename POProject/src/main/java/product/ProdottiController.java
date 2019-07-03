@@ -39,13 +39,18 @@ public class ProdottiController {
 	}
 	
 	//estrae prodotti con codice = filter
-	@GetMapping("/prodotti/{filter}")
+	/*@GetMapping("/prodotti/{filter}")
 	public List<Prodotti> getPByCode(@PathVariable int filter){
 		return prodottiService.getProductByCode(filter);
-	}
+	}*/
 	
+	/*@GetMapping("/prodotti")
+	public List<Prodotti> getPByCode(@RequestParam(value="filter", required=true) String filter){
+		return prodottiService.getProductByCode2(filter);
+	}
+	*/
 	@GetMapping("/stats")
-	public Item getProd(@RequestParam(value="field", required=false) String field){
+	public Item getProd(@RequestParam(value="field", required=true) String field){
 		return prodottiService.getProduct(field);
 	}
 	
