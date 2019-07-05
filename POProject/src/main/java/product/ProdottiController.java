@@ -54,6 +54,11 @@ public class ProdottiController {
 		return prodottiService.getProduct(field);
 	}
 	
+	//estrae il conteggio di ogni tipo di prodotto 
+	@GetMapping("/product/{field}")
+	public List<Conteggio> getCountElem(@PathVariable String field){
+		return prodottiService.getCountElement(field);		
+	}
 	
 	
 }
