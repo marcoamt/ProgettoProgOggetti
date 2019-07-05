@@ -9,7 +9,11 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.json.simple.JSONArray;
@@ -18,6 +22,10 @@ import org.json.simple.JSONValue;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import parseJSON.DownloadCSV;
 
 @Component
@@ -25,6 +33,7 @@ public class ProdottiService {
 
 	public static List<Prodotti> products = new ArrayList<>();
 	public static List<Metadati> meta = new ArrayList<>();
+	public static List<String> filtro=new ArrayList<>();
 
 	static {
 		DownloadCSV d=new DownloadCSV("http://data.europa.eu/euodp/data/api/3/action/package_show?id=eu-prices-for-selected-dairy-products");
@@ -167,20 +176,43 @@ public class ProdottiService {
 		return Math.sqrt(somm/p.size());
 	}
 
-	/*
-	public List<Prodotti> getProductByCode2(String filter) {
+	
+	public List<String> getProductByCode2(String filter) {
+		//JSONObject obj = filter;
+		JSONObject obj;
 		try {
-			JSONObject obj = (JSONObject) JSONValue.parseWithException(filter);
-			Set<String> keys =obj.keySet();
-			for(String key:keys) {
-			    System.out.println("Key :: "+key +", Value :: "+obj.get(key));;
-			}
+			obj = (JSONObject) JSONValue.parseWithException(filter);
+			printJsonObject(obj);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-		return null;
-	}*/
+
+		return filtro;
+	}
+	
+	//get keys and values form filter string
+	public void printJsonObject(JSONObject jsonObj) {
+	    for (Object key : jsonObj.keySet()) {
+	        //based on you key types
+	        String keyStr = (String)key;
+	        Object keyvalue = jsonObj.get(keyStr);
+
+	        //Print key and value
+	        System.out.println("key: "+ keyStr + " value: " + keyvalue);
+	        filtro.add(keyStr);
+
+	        //for nested objects iteration if required
+	        if (keyvalue instanceof JSONObject) {
+	            printJsonObject((JSONObject)keyvalue);
+	        }else {
+	        	
+	        filtro.add(keyvalue.toString());
+	        }
+
+	    }	        
+	}
+	
 	
 	public List<Conteggio> getCountElement(String field) {
 		List<Prodotti> prodotti = getAllProducts();
