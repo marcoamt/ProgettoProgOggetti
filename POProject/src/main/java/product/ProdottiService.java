@@ -167,8 +167,8 @@ public class ProdottiService {
 		return Math.sqrt(somm/p.size());
 	}
 
-
-	/*public List<Prodotti> getProductByCode2(String filter) {
+	/*
+	public List<Prodotti> getProductByCode2(String filter) {
 		try {
 			JSONObject obj = (JSONObject) JSONValue.parseWithException(filter);
 			Set<String> keys =obj.keySet();
