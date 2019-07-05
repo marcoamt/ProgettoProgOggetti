@@ -182,6 +182,38 @@ public class ProdottiService {
 		return null;
 	}*/
 	
+	public List<Conteggio> getCountElement(String field) {
+		List<Prodotti> prodotti = getAllProducts();
+		List<Conteggio> prova = new ArrayList<>();
+		List<String> list = new ArrayList<>();
+			switch(field){
+				case "desc":
+					
+					for(Prodotti p: prodotti){
+						list.add(p.getDesc());
+					}
+					Set<String> distinct = new HashSet<>(list);		
+					for(String s:distinct){
+						prova.add(new Conteggio(s,Collections.frequency(list, s)));
+						
+					}
+					
+				break;
+				
+				case "country":
+					for(Prodotti p: prodotti){
+						list.add(p.getCountry());
+					}
+					Set<String> distinct2 = new HashSet<>(list);		
+					for(String s:distinct2){
+						prova.add(new Conteggio(s,Collections.frequency(list, s)));
+						
+					}
+				break;
+			}
+		
+		return prova;
+	}
 	
 	
 	
