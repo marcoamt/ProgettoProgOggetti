@@ -9,6 +9,7 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -177,18 +178,44 @@ public class ProdottiService {
 	}
 
 	
-	public List<String> getProductByCode2(String filter) {
+	public List<Prodotti> getProductByCodeFiltro(String filter) {
 		//JSONObject obj = filter;
 		JSONObject obj;
 		try {
 			obj = (JSONObject) JSONValue.parseWithException(filter);
 			printJsonObject(obj);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			 //TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-
-		return filtro;
+		
+		switch(filtro.get(0)){
+		case "prezzo":
+			return op(filtro.get(1),filtro.get(2));
+			
+		}
+			
+		return products;
+		
+	}
+	
+	public List<Prodotti> op(String op,String dati) {
+		
+		List<Prodotti> prodotti = getAllProducts();
+		List<Prodotti> prova = new ArrayList<>();
+		String d=dati.replaceAll("[^.-?0-9]+", " ");
+		String[] n=d.split(" ");
+		System.out.println(n[1]);
+		System.out.println(n[2]);
+		switch(op) {
+			case "$bt":
+				for(Prodotti p: prodotti) {
+					if(p.getMarketPrice()<=Double.parseDouble(n[2]) && p.getMarketPrice()>=Double.parseDouble(n[1]))
+							prova.add(p);
+				}
+			break;
+		}
+		return prova;
 	}
 	
 	//get keys and values form filter string
@@ -204,10 +231,11 @@ public class ProdottiService {
 
 	        //for nested objects iteration if required
 	        if (keyvalue instanceof JSONObject) {
+	        	//System.out.println("doppio");
 	            printJsonObject((JSONObject)keyvalue);
 	        }else {
-	        	
-	        filtro.add(keyvalue.toString());
+	        	//System.out.println("uno");
+	        	filtro.add(keyvalue.toString());
 	        }
 
 	    }	        
