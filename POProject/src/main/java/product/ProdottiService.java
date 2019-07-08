@@ -188,34 +188,88 @@ public class ProdottiService {
 			 //TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-		
+
+		List<Prodotti> prodotti = getAllProducts();
+
+		List<Prodotti> prova = new ArrayList<>();
 		switch(filtro.get(0)){
 		case "prezzo":
-			return op(filtro.get(1),filtro.get(2));
+			for(Prodotti p: prodotti) {
+				if(opPrezzo(p.getMarketPrice(),filtro.get(1),filtro.get(2)))
+					prova.add(p);
+			}
+			break;
 			
+		case "country":
+			for(Prodotti p: prodotti) {
+				if(opString(p.getCountry(),filtro.get(1),filtro.get(2)))
+					prova.add(p);
+			}
+			break;
+			
+		case "desc":
+			for(Prodotti p: prodotti) {
+				if(opString(p.getDesc(),filtro.get(1),filtro.get(2)))
+					prova.add(p);
+			}
+			break;
 		}
+		
 			
-		return products;
+			
+		return prova;
 		
 	}
 	
-	public List<Prodotti> op(String op,String dati) {
+	public boolean opPrezzo(double price, String op,String dati) {
 		
-		List<Prodotti> prodotti = getAllProducts();
-		List<Prodotti> prova = new ArrayList<>();
-		String d=dati.replaceAll("[^.-?0-9]+", " ");
-		String[] n=d.split(" ");
-		System.out.println(n[1]);
-		System.out.println(n[2]);
+		//List<Prodotti> prova = new ArrayList<>();
+		
 		switch(op) {
 			case "$bt":
-				for(Prodotti p: prodotti) {
-					if(p.getMarketPrice()<=Double.parseDouble(n[2]) && p.getMarketPrice()>=Double.parseDouble(n[1]))
-							prova.add(p);
+				String d=dati.replaceAll("[^.-?0-9]+", " ");
+				String[] n=d.split(" ");
+				System.out.println(n[1]);
+				System.out.println(n[2]);
+					if(price<=Double.parseDouble(n[2]) && price>=Double.parseDouble(n[1]))
+							return true;
+			break;
+			
+			case "$gt":
+				if(price>Double.parseDouble(dati))
+					return true;
+				break;
+		}
+		return false;
+	}
+	
+public boolean opString(String s, String op,String dati) {
+		
+		//List<Prodotti> prova = new ArrayList<>();
+		
+		switch(op) {
+			case "$in":
+				if(dati.startsWith("[")) {
+					String d=dati.replaceAll("[^.-?A-Z]+", " ");
+					String[] n=d.split(" ");
+					//System.out.println(n[1]);
+					//System.out.println(n[2]);
+					for(int i=1; i<n.length; i++) {
+						if(s.equals(n[i]))
+								return true;
+					}
+				}
+				else {
+					if(s.equals(dati))
+						return true;
 				}
 			break;
+			
+			case "$not":
+				if(!s.equals(dati))
+					return true;
 		}
-		return prova;
+		return false;
 	}
 	
 	//get keys and values form filter string
