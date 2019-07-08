@@ -330,6 +330,27 @@ public boolean opString(String s, String op,String dati) {
 	}
 	
 	
+	public Item getStatsFiltro(String filter, String field) {
+		List<Prodotti> prodotti = getAllProducts();
+		List<Double> prezzi=new ArrayList<>();
+		double avg=0, min=0, max=0, std=0, sum=0;
+		int count = 0;
+		
+		
+
+		for(Prodotti p: getProductByCodeFiltro( filter)) {
+			sum+=p.getMarketPrice();
+			count++;
+			prezzi.add(p.getMarketPrice());
+		}
+		//System.out.print(getProductByCodeFiltro( filter).size());
+		avg=sum/count;
+		max =max(prezzi);
+		min =min(prezzi);
+		std = std(prezzi, avg);
+		
+		return new Item(field, avg, min, max, std, sum, count);
+	}
 	
 	
 	
