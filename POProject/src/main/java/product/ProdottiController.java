@@ -28,13 +28,13 @@ public class ProdottiController {
 		return prodottiService.getAllMeta();
 	}
 	
-	/*@GetMapping("/prodotti")
-	public List<Prodotti> prodottiFilterPrice(@RequestParam(value="code", required=false) String productCode,@RequestParam(value="pmin", required=false) String PMIN,@RequestParam(value="pmax", required=false)String PMAX){
+	@GetMapping("/prodotti")
+	public List<Prodotti> prodottiFilterPrice(){
 		
 			return prodottiService.getAllProducts();
 	
 		
-	}*/
+	}
 	
 	//estrae prodotti con codice = filter
 	@GetMapping("/prodotti/{filter}")
@@ -42,16 +42,17 @@ public class ProdottiController {
 		return prodottiService.getProductByCode(filter);
 	}
 	
-	@GetMapping("/prodotti")
+	/*@GetMapping("/prodotti")
 	public List<String> getProductByFilter(@RequestParam(value="filter", required=true) String filter){
 		return prodottiService.getProdByFilter(filter);
-	}
+	}*/
 	
 	
 	//estrae il conteggio di ogni tipo di prodotto 
-	@GetMapping("/product/{field}")
-	public List<Conteggio> getCountElem(@PathVariable String field){
-		return prodottiService.getCountElement(field);		
+	@GetMapping("/statstring")
+	public List<Conteggio> getCountElem(@RequestParam(value = "filter", required=false)String filter,@RequestParam String field){
+		
+			return prodottiService.getCountElement(field,filter);		
 	}
 	
 	@PostMapping(path="/prodotti", consumes= {"application/JSON"})
@@ -61,12 +62,8 @@ public class ProdottiController {
 	
 	@GetMapping("/stats")
 	public Item getStats(@RequestParam(value = "filter", required=false)String filter,@RequestParam String field)  {
-		if(filter== null){
-			return prodottiService.getProduct(field);
-		}else{
-			return prodottiService.getStatsFiltro(filter, field);
-		}
 		
+			return prodottiService.getStatsFiltro(filter, field);
 	}
 	
 	

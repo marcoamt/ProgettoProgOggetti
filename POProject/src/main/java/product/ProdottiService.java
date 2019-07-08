@@ -34,7 +34,7 @@ public class ProdottiService {
 
 	public static List<Prodotti> products = new ArrayList<>();
 	public static List<Metadati> meta = new ArrayList<>();
-	public static List<String> filtro=new ArrayList<>();
+	public static List<String> filtro;
 
 	static {
 		DownloadCSV d=new DownloadCSV("http://data.europa.eu/euodp/data/api/3/action/package_show?id=eu-prices-for-selected-dairy-products");
@@ -123,7 +123,7 @@ public class ProdottiService {
 		return prova;
 	}
 
-	public Item getProduct(String field) {
+	/*public Item getProduct(String field) {
 
 		List<Prodotti> prodotti = getAllProducts();
 		List<Double> prezzi=new ArrayList<>();
@@ -141,7 +141,7 @@ public class ProdottiService {
 		std = std(prezzi, avg);
 		
 		return new Item(field, avg, min, max, std, sum, count);
-	}
+	}*/
 
 	public static double max(List<Double> p) {
 		
@@ -180,6 +180,7 @@ public class ProdottiService {
 	
 	public List<Prodotti> getProductByCodeFiltro(String filter) {
 		//JSONObject obj = filter;
+		filtro=new ArrayList<>();
 		JSONObject obj;
 		try {
 			obj = (JSONObject) JSONValue.parseWithException(filter);
@@ -243,7 +244,7 @@ public class ProdottiService {
 		return false;
 	}
 	
-public boolean opString(String s, String op,String dati) {
+	public boolean opString(String s, String op,String dati) {
 		
 		//List<Prodotti> prova = new ArrayList<>();
 		
@@ -296,10 +297,18 @@ public boolean opString(String s, String op,String dati) {
 	}
 	
 	
-	public List<Conteggio> getCountElement(String field) {
-		List<Prodotti> prodotti = getAllProducts();
+	public List<Conteggio> getCountElement(String field, String filter) {
+		
+		List<Prodotti> prodotti;
 		List<Conteggio> prova = new ArrayList<>();
 		List<String> list = new ArrayList<>();
+		
+		if(filter!=null) {
+			prodotti=getProductByCodeFiltro( filter);
+		}else {
+			prodotti = getAllProducts();
+		}
+		
 			switch(field){
 				case "desc":
 					
@@ -331,14 +340,18 @@ public boolean opString(String s, String op,String dati) {
 	
 	
 	public Item getStatsFiltro(String filter, String field) {
-		List<Prodotti> prodotti = getAllProducts();
+		List<Prodotti> prodotti;
 		List<Double> prezzi=new ArrayList<>();
 		double avg=0, min=0, max=0, std=0, sum=0;
 		int count = 0;
 		
-		
+		if(filter!=null) {
+			prodotti=getProductByCodeFiltro( filter);
+		}else {
+			prodotti = getAllProducts();
+		}
 
-		for(Prodotti p: getProductByCodeFiltro( filter)) {
+		for(Prodotti p: prodotti) {
 			sum+=p.getMarketPrice();
 			count++;
 			prezzi.add(p.getMarketPrice());
@@ -351,6 +364,8 @@ public boolean opString(String s, String op,String dati) {
 		
 		return new Item(field, avg, min, max, std, sum, count);
 	}
+
+
 	
 	
 	
