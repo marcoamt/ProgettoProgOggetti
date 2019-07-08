@@ -2,7 +2,7 @@ package product;
 
 import java.util.List;
 
-import org.json.simple.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,40 +22,41 @@ public class ProdottiController {
     public String homeInit() {
         return "home";
     }
-
 	
 	@GetMapping("/metadata")
 	public List<Metadati> getAllMeta() {
 		return prodottiService.getAllMeta();
 	}
 	
-	@GetMapping("/prodotti")
+	/*@GetMapping("/prodotti")
 	public List<Prodotti> prodottiFilterPrice(@RequestParam(value="code", required=false) String productCode,@RequestParam(value="pmin", required=false) String PMIN,@RequestParam(value="pmax", required=false)String PMAX){
-		if(productCode ==null){
+		
 			return prodottiService.getAllProducts();
-		}
-		else{
-			return prodottiService.getProdByPrice(productCode,PMIN,PMAX);
-
-		}
+	
+		
+	}*/
+	
+	//estrae prodotti con codice = filter
+	@GetMapping("/prodotti/{filter}")
+	public List<Prodotti> getPByCode(@PathVariable int filter){
+		return prodottiService.getProductByCode(filter);
 	}
 	
-	
-	
-	@PostMapping(path="/prodotti", consumes= {"application/JSON"})
-	public List<Prodotti> getPByCode(@RequestBody String filter){
-		return prodottiService.getProductByCodeFiltro(filter);
+	@GetMapping("/prodotti")
+	public List<String> getProductByFilter(@RequestParam(value="filter", required=true) String filter){
+		return prodottiService.getProdByFilter(filter);
 	}
 	
-	@GetMapping("/stats")
-	public Item getProd(@RequestParam(value="field", required=true) String field){
-		return prodottiService.getProduct(field);
-	}
 	
 	//estrae il conteggio di ogni tipo di prodotto 
 	@GetMapping("/product/{field}")
 	public List<Conteggio> getCountElem(@PathVariable String field){
 		return prodottiService.getCountElement(field);		
+	}
+	
+	@PostMapping(path="/prodotti", consumes= {"application/JSON"})
+	public List<Prodotti> getPByCode(@RequestBody String filter){
+		return prodottiService.getProductByCodeFiltro(filter);
 	}
 	
 	@GetMapping("/stats")
@@ -67,5 +68,7 @@ public class ProdottiController {
 		}
 		
 	}
+	
+	
 	
 }
