@@ -40,11 +40,7 @@ public class ProdottiController {
 		}
 	}
 	
-	//estrae prodotti con codice = filter
-	/*@GetMapping("/prodotti/{filter}")
-	public List<Prodotti> getPByCode(@PathVariable int filter){
-		return prodottiService.getProductByCode(filter);
-	}*/
+	
 	
 	@PostMapping(path="/prodotti", consumes= {"application/JSON"})
 	public List<Prodotti> getPByCode(@RequestBody String filter){
@@ -62,5 +58,14 @@ public class ProdottiController {
 		return prodottiService.getCountElement(field);		
 	}
 	
+	@GetMapping("/stats")
+	public Item getStats(@RequestParam(value = "filter", required=false)String filter,@RequestParam String field)  {
+		if(filter== null){
+			return prodottiService.getProduct(field);
+		}else{
+			return prodottiService.getStatsFiltro(filter, field);
+		}
+		
+	}
 	
 }
