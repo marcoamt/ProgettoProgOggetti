@@ -9,33 +9,35 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.ParseException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.server.ResponseStatusException;
 
 import parseJSON.DownloadCSV;
 
 @Component
 public class ProdottiService {
 
+	/**
+	 * @param products 
+	 * @param meta
+	 * @param filtro
+	 */
 	public static List<Prodotti> products = new ArrayList<>();
 	public static List<Metadati> meta = new ArrayList<>();
 	public static List<String> filtro;
 
+	/**
+	 * 
+	 */
 	static {
 		DownloadCSV d=new DownloadCSV("http://data.europa.eu/euodp/data/api/3/action/package_show?id=eu-prices-for-selected-dairy-products");
 		
@@ -49,12 +51,14 @@ public class ProdottiService {
 			 int i=0;
 			 try {
 			   while ( ( line = br.readLine() ) != null ) {
-				   
-				   /*data+= line+"\n";
-				   System.out.println( line );*/
+	
 				   if(i!=0) {
-				   data=line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"); 
-				   	products.add(new Prodotti(data[0],data[1],Integer.parseInt(data[2]),data[3],data[4],data[5],data[6],Integer.parseInt(data[7]),Double.parseDouble(data[8])));
+				   data=line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");   
+					   if(data.length == meta.size()){
+						   products.add(new Prodotti(data[0],data[1],Integer.parseInt(data[2]),data[3],data[4],data[5],data[6],Integer.parseInt(data[7]),Double.parseDouble(data[8])));
+					   }else{
+						   System.out.println(meta.get(data.length));
+					   }
 				   }else {
 					   data=line.split(","); 
 					   int cont=0;
@@ -73,10 +77,17 @@ public class ProdottiService {
 		}catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.toString());
+			System.exit(1);
 		}
 	}
-	
+	/**
+	 * 
+	 * @param url is the url of file
+	 * @param fileName is the name of file
+	 * @throws Exception
+	 * @return download of file
+	 */
 	public static void download(String url, String fileName) throws Exception {
 	    try (InputStream in = URI.create(url).toURL().openStream()) {
 	        Files.copy(in, Paths.get(fileName));
@@ -84,23 +95,39 @@ public class ProdottiService {
 	}
 	
 
+	/**
+	 * 
+	 * @return a list of all products
+	 */
 	public List<Prodotti> getAllProducts() {
 		return products;
 	}
 
 
+	/**
+	 * 
+	 * @return return a list of all product by code
+	 */
 	public List<Prodotti> getPByCode(){
 		return products;
 	}
 
-
+	/**
+	 * 
+	 * @return a list of metadati
+	 */
 	public List<Metadati> getAllMeta(){
 		return meta;
 	}
 
-
+	/**
+	 * 
+	 * @param productCode is the code of product
+	 * @param PMIN is the minimum price
+	 * @param PMAX is the maximum price
+	 * @return a list of products get by price
+	 */
 	public List<Prodotti> getProdByPrice(String productCode, String PMIN, String PMAX) {
-
 		List<Prodotti> prodotti = getProductByCode(Integer.parseInt(productCode));
 		List<Prodotti> prova = new ArrayList<>();
 		
@@ -112,6 +139,11 @@ public class ProdottiService {
 		return prova;
 	}
 	
+	/**
+	 * 
+	 * @param productCode is the code of product
+	 * @return a list of products get by code
+	 */
 	public List<Prodotti> getProductByCode(int productCode){
 		List<Prodotti> prodotti = getAllProducts();
 		List<Prodotti> prova = new ArrayList<>();
@@ -123,28 +155,12 @@ public class ProdottiService {
 		return prova;
 	}
 
-	/*public Item getProduct(String field) {
-
-		List<Prodotti> prodotti = getAllProducts();
-		List<Double> prezzi=new ArrayList<>();
-		double avg=0, min=0, max=0, std=0, sum=0;
-		int count = 0;
-		
-		for(Prodotti p: prodotti) {
-			sum+=p.getMarketPrice();
-			count++;
-			prezzi.add(p.getMarketPrice());
-		}
-		avg=sum/count;
-		max =max(prezzi);
-		min =min(prezzi);
-		std = std(prezzi, avg);
-		
-		return new Item(field, avg, min, max, std, sum, count);
-	}*/
-
+	/**
+	 * 
+	 * @param p is a list of double element
+	 * @return the max of list
+	 */
 	public static double max(List<Double> p) {
-		
 		Double mx=p.get(0);
 		for(int i=1;i<p.size();i++) {
 		if(p.get(i)>mx)
@@ -152,35 +168,86 @@ public class ProdottiService {
 
 		}
 		return mx;
-		
 	}
 	
-
+	/**
+	 * 
+	 * @param p is a list of double element
+	 * @return the min of list
+	 */
 	public static double min(List<Double> p) {
-		
 		Double mn=p.get(0);
 		for(int i=1;i<p.size();i++) {
-		if(p.get(i)<mn)
-		mn=p.get(i);
-
+			if(p.get(i)<mn)
+			mn=p.get(i);
 		}
 		return mn;
-		
 	}
 	
+	/**
+	 * 
+	 * @param p is a list of double element
+	 * @param avg is the average
+	 * @return 
+	 */
 	public static double std(List<Double> p, double avg) {
 		double somm=0;
 		for(Double pr:p) {
 			somm+=Math.pow((pr-avg),2);
-		}
-		
+		}		
 		return Math.sqrt(somm/p.size());
 	}
 
+	/**
+	 * 
+	 * @param filter is the filter
+	 * @return the filter in json format
+	 */
+	public List<String> getProdByFilter(String filter) {
+		JSONObject obj;
+		try {
+			obj = (JSONObject) JSONValue.parseWithException(filter);
+			printJsonObject(obj);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return filtro;
+	}
 	
+	//get keys and values form filter string
+	/**
+	 * 
+	 * @param jsonObj is the json object extract from the filter
+	 * @return keys and values from filter string
+	 */
+	public void printJsonObject(JSONObject jsonObj) {
+	    for (Object key : jsonObj.keySet()) {
+	        //based on you key types
+	        String keyStr = (String)key;
+	        Object keyvalue = jsonObj.get(keyStr);
+
+	        //Print key and value
+	        System.out.println("key: "+ keyStr + " value: " + keyvalue);
+	        filtro.add(keyStr);
+
+	        //for nested objects iteration if required
+	        if (keyvalue instanceof JSONObject) {
+	            printJsonObject((JSONObject)keyvalue);
+	        }else {
+	        	
+	        filtro.add(keyvalue.toString());
+	        }
+	    }	        
+	}
+	
+	/**
+	 * 
+	 * @param filter is the filter
+	 * @return for each case a list of product get by filter
+	 */
 	public List<Prodotti> getProductByCodeFiltro(String filter) {
-		//JSONObject obj = filter;
-		filtro=new ArrayList<>();
+		filtro = new ArrayList<>();
 		JSONObject obj;
 		try {
 			obj = (JSONObject) JSONValue.parseWithException(filter);
@@ -188,6 +255,8 @@ public class ProdottiService {
 		} catch (ParseException e) {
 			 //TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "errore sintassi url");
+			
 		} 
 
 		List<Prodotti> prodotti = getAllProducts();
@@ -214,17 +283,23 @@ public class ProdottiService {
 					prova.add(p);
 			}
 			break;
+			
+		default:
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "field " + filtro.get(0) + " not suported");
+			
+	
 		}
-		
-			
-			
 		return prova;
-		
 	}
 	
+	/**
+	 * 
+	 * @param price is the price of element
+	 * @param op is the operation
+	 * @param dati
+	 * @return two conditional operator
+	 */
 	public boolean opPrezzo(double price, String op,String dati) {
-		
-		//List<Prodotti> prova = new ArrayList<>();
 		
 		switch(op) {
 			case "$bt":
@@ -240,14 +315,24 @@ public class ProdottiService {
 				if(price>Double.parseDouble(dati))
 					return true;
 				break;
+			
+			default:
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "field " + op + " not suported");
+				
+			
 		}
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @param s
+	 * @param op is the operation
+	 * @param dati
+	 * @return two logical operator
+	 */
 	public boolean opString(String s, String op,String dati) {
-		
-		//List<Prodotti> prova = new ArrayList<>();
-		
+	
 		switch(op) {
 			case "$in":
 				if(dati.startsWith("[")) {
@@ -269,46 +354,32 @@ public class ProdottiService {
 			case "$not":
 				if(!s.equals(dati))
 					return true;
+				break;
+			
+			default:
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "field " + op + " not suported");
+				
+			
 		}
 		return false;
 	}
 	
-	//get keys and values form filter string
-	public void printJsonObject(JSONObject jsonObj) {
-	    for (Object key : jsonObj.keySet()) {
-	        //based on you key types
-	        String keyStr = (String)key;
-	        Object keyvalue = jsonObj.get(keyStr);
-
-	        //Print key and value
-	        System.out.println("key: "+ keyStr + " value: " + keyvalue);
-	        filtro.add(keyStr);
-
-	        //for nested objects iteration if required
-	        if (keyvalue instanceof JSONObject) {
-	        	//System.out.println("doppio");
-	            printJsonObject((JSONObject)keyvalue);
-	        }else {
-	        	//System.out.println("uno");
-	        	filtro.add(keyvalue.toString());
-	        }
-
-	    }	        
-	}
-	
-	
+	/**
+	 * 
+	 * @param field
+	 * @param filter 
+	 * @return count element of two field, desc and country
+	 */
 	public List<Conteggio> getCountElement(String field, String filter) {
-		
 		List<Prodotti> prodotti;
 		List<Conteggio> prova = new ArrayList<>();
 		List<String> list = new ArrayList<>();
-		
+
 		if(filter!=null) {
 			prodotti=getProductByCodeFiltro( filter);
 		}else {
 			prodotti = getAllProducts();
 		}
-		
 			switch(field){
 				case "desc":
 					
@@ -333,12 +404,21 @@ public class ProdottiService {
 						
 					}
 				break;
+				
+				default:
+					throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "field " + field + " not suported");
+					
 			}
 		
 		return prova;
 	}
-	
-	
+
+	/**
+	 * 
+	 * @param filter
+	 * @param field
+	 * @return an item with all statistics data
+	 */
 	public Item getStatsFiltro(String filter, String field) {
 		List<Prodotti> prodotti;
 		List<Double> prezzi=new ArrayList<>();
@@ -364,8 +444,7 @@ public class ProdottiService {
 		
 		return new Item(field, avg, min, max, std, sum, count);
 	}
-
-
+	
 	
 	
 	
