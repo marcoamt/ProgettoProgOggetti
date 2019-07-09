@@ -1,4 +1,4 @@
-package product;
+package conteggio;
 
 public class Conteggio {
 

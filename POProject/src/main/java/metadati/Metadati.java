@@ -1,4 +1,4 @@
-package product;
+package metadati;
 
 public class Metadati {
 	
