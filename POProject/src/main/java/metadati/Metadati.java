@@ -8,8 +8,8 @@ public class Metadati {
 	
 	/**
 	 * 
-	 * @param alias is the name of field
-	 * @param sourceFields is the description of alias
+	 * @param alias is the name of field provided by us
+	 * @param sourceFields is the name of field
 	 * @param type is the type of field
 	 */
 	public Metadati(String alias, String sourceFields, String type) {

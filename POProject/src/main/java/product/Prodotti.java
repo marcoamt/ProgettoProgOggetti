@@ -21,8 +21,8 @@ public class Prodotti {
 	 * @param briefDesc is a brief description of products
 	 * @param unit is the unite of measure of products
 	 * @param country is the country of products coming
-	 * @param period is the expiry period of products
-	 * @param marketPrice is the rice of products at market
+	 * @param period is a field of the dataset 
+	 * @param marketPrice is the price of products at market
 	 */
 	public Prodotti(String category, String sectorCode, int productCode, String desc, String briefDesc, String unit,
 			String country, int period, double marketPrice) {

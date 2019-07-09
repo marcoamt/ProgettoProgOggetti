@@ -7,8 +7,8 @@ public class Conteggio {
 	
 	/**
 	 * 
-	 * @param element
-	 * @param count 
+	 * @param element string element that the user wants to count
+	 * @param count number of elements in the dataset
 	 */
 	public Conteggio(String element, int count){
 		this.element = element;
@@ -25,7 +25,7 @@ public class Conteggio {
 
 	/**
 	 * 
-	 * @return count of element
+	 * @return number of an element
 	 */
 	public int getCount() {
 		return count;

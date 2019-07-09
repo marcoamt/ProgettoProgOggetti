@@ -30,16 +30,16 @@ import parseJSON.DownloadCSV;
 public class ProdottiService {
 
 	/**
-	 * @param products 
-	 * @param meta
-	 * @param filtro
+	 * @param products list where there'll be all products
+	 * @param meta list where there'll be metadata of all fields
+	 * @param filtro list that is used to store the filter param after decode json and split
 	 */
 	public static List<Prodotti> products = new ArrayList<>();
 	public static List<Metadati> meta = new ArrayList<>();
 	public static List<String> filtro;
 
 	/**
-	 * 
+	 * method that downloads the file .csv from a link after decode the JSON
 	 */
 	static {
 		DownloadCSV d=new DownloadCSV("http://data.europa.eu/euodp/data/api/3/action/package_show?id=eu-prices-for-selected-dairy-products");
@@ -84,18 +84,6 @@ public class ProdottiService {
 			System.exit(1);
 		}
 	}
-	/**
-	 * 
-	 * @param url is the url of file
-	 * @param fileName is the name of file
-	 * @throws Exception
-	 * @return download of file
-	 */
-	public static void download(String url, String fileName) throws Exception {
-	    try (InputStream in = URI.create(url).toURL().openStream()) {
-	        Files.copy(in, Paths.get(fileName));
-	    }
-	}
 	
 
 	/**
@@ -109,38 +97,12 @@ public class ProdottiService {
 
 	/**
 	 * 
-	 * @return return a list of all product by code
-	 */
-	public List<Prodotti> getPByCode(){
-		return products;
-	}
-
-	/**
-	 * 
-	 * @return a list of metadati
+	 * @return a list of metadata
 	 */
 	public List<Metadati> getAllMeta(){
 		return meta;
 	}
 
-	/**
-	 * 
-	 * @param productCode is the code of product
-	 * @param PMIN is the minimum price
-	 * @param PMAX is the maximum price
-	 * @return a list of products get by price
-	 */
-	public List<Prodotti> getProdByPrice(String productCode, String PMIN, String PMAX) {
-		List<Prodotti> prodotti = getProductByCode(Integer.parseInt(productCode));
-		List<Prodotti> prova = new ArrayList<>();
-		
-		for(Prodotti p: prodotti){
-				if(p.getMarketPrice() >= Double.parseDouble(PMIN) && p.getMarketPrice() <= Double.parseDouble(PMAX)){
-					prova.add(p);
-				}
-		}
-		return prova;
-	}
 	
 	/**
 	 * 
@@ -149,19 +111,19 @@ public class ProdottiService {
 	 */
 	public List<Prodotti> getProductByCode(int productCode){
 		List<Prodotti> prodotti = getAllProducts();
-		List<Prodotti> prova = new ArrayList<>();
+		List<Prodotti> prod = new ArrayList<>();
 		for(Prodotti p: prodotti){
 			if(p.getProductCode() == productCode){
-				prova.add(p);
+				prod.add(p);
 			}
 		}
-		return prova;
+		return prod;
 	}
 
 	/**
 	 * 
-	 * @param p is a list of double element
-	 * @return the max of list
+	 * @param p is a list of market prices
+	 * @return the max of the list
 	 */
 	public static double max(List<Double> p) {
 		Double mx=p.get(0);
@@ -175,7 +137,7 @@ public class ProdottiService {
 	
 	/**
 	 * 
-	 * @param p is a list of double element
+	 * @param p is a list of market prices
 	 * @return the min of list
 	 */
 	public static double min(List<Double> p) {
@@ -189,38 +151,23 @@ public class ProdottiService {
 	
 	/**
 	 * 
-	 * @param p is a list of double element
+	 * @param p is a list of market prices
 	 * @param avg is the average
-	 * @return 
+	 * @return std is the standard deviation of the list
 	 */
 	public static double std(List<Double> p, double avg) {
 		double somm=0;
 		for(Double pr:p) {
 			somm+=Math.pow((pr-avg),2);
-		}		
-		return Math.sqrt(somm/p.size());
+		}	
+		double std =Math.sqrt(somm/p.size());
+		return std;
 	}
 
-	/**
-	 * 
-	 * @param filter is the filter
-	 * @return the filter in json format
-	 */
-	public List<String> getProdByFilter(String filter) {
-		JSONObject obj;
-		try {
-			obj = (JSONObject) JSONValue.parseWithException(filter);
-			printJsonObject(obj);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		return filtro;
-	}
 	
 	//get keys and values form filter string
 	/**
-	 * 
+	 * This method adds to the filter list the keys and their values
 	 * @param jsonObj is the json object extract from the filter
 	 * @return keys and values from filter string
 	 */
@@ -264,26 +211,26 @@ public class ProdottiService {
 
 		List<Prodotti> prodotti = getAllProducts();
 
-		List<Prodotti> prova = new ArrayList<>();
+		List<Prodotti> prod = new ArrayList<>();
 		switch(filtro.get(0)){
 		case "prezzo":
 			for(Prodotti p: prodotti) {
 				if(opPrezzo(p.getMarketPrice(),filtro.get(1),filtro.get(2)))
-					prova.add(p);
+					prod.add(p);
 			}
 			break;
 			
 		case "country":
 			for(Prodotti p: prodotti) {
 				if(opString(p.getCountry(),filtro.get(1),filtro.get(2)))
-					prova.add(p);
+					prod.add(p);
 			}
 			break;
 			
 		case "desc":
 			for(Prodotti p: prodotti) {
 				if(opString(p.getDesc(),filtro.get(1),filtro.get(2)))
-					prova.add(p);
+					prod.add(p);
 			}
 			break;
 			
@@ -292,14 +239,14 @@ public class ProdottiService {
 			
 	
 		}
-		return prova;
+		return prod;
 	}
 	
 	/**
 	 * 
 	 * @param price is the price of element
 	 * @param op is the operation
-	 * @param dati
+	 * @param dati is the data passed to do the filter
 	 * @return two conditional operator
 	 */
 	public boolean opPrezzo(double price, String op,String dati) {
@@ -329,12 +276,12 @@ public class ProdottiService {
 	
 	/**
 	 * 
-	 * @param s
+	 * @param s is the return of the getField
 	 * @param op is the operation
 	 * @param dati
 	 * @return two logical operator
 	 */
-	public boolean opString(String s, String op,String dati) {
+	public boolean opString(String get, String op,String dati) {
 	
 		switch(op) {
 			case "$in":
@@ -344,18 +291,18 @@ public class ProdottiService {
 					//System.out.println(n[1]);
 					//System.out.println(n[2]);
 					for(int i=1; i<n.length; i++) {
-						if(s.equals(n[i]))
+						if(get.equals(n[i]))
 								return true;
 					}
 				}
 				else {
-					if(s.equals(dati))
+					if(get.equals(dati))
 						return true;
 				}
 			break;
 			
 			case "$not":
-				if(!s.equals(dati))
+				if(get.equals(dati))
 					return true;
 				break;
 			
@@ -371,11 +318,11 @@ public class ProdottiService {
 	 * 
 	 * @param field
 	 * @param filter 
-	 * @return count element of two field, desc and country
+	 * @return count elements of the dataset filtered
 	 */
 	public List<Conteggio> getCountElement(String field, String filter) {
 		List<Prodotti> prodotti;
-		List<Conteggio> prova = new ArrayList<>();
+		List<Conteggio> prod = new ArrayList<>();
 		List<String> list = new ArrayList<>();
 
 		if(filter!=null) {
@@ -391,7 +338,7 @@ public class ProdottiService {
 					}
 					Set<String> distinct = new HashSet<>(list);		
 					for(String s:distinct){
-						prova.add(new Conteggio(s,Collections.frequency(list, s)));
+						prod.add(new Conteggio(s,Collections.frequency(list, s)));
 						
 					}
 					
@@ -403,7 +350,7 @@ public class ProdottiService {
 					}
 					Set<String> distinct2 = new HashSet<>(list);		
 					for(String s:distinct2){
-						prova.add(new Conteggio(s,Collections.frequency(list, s)));
+						prod.add(new Conteggio(s,Collections.frequency(list, s)));
 						
 					}
 				break;
@@ -413,14 +360,14 @@ public class ProdottiService {
 					
 			}
 		
-		return prova;
+		return prod;
 	}
 
 	/**
 	 * 
 	 * @param filter
 	 * @param field
-	 * @return an item with all statistics data
+	 * @return an field with its statistics
 	 */
 	public Item getStatsFiltro(String filter, String field) {
 		List<Prodotti> prodotti;

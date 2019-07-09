@@ -28,7 +28,7 @@ public class ProdottiController {
     }
 	
 	/**
-	 * This method prints out a list of all type of metadata
+	 * This method prints out a list of all type of metadata in the dataset
 	 * @return a list of all type of metadata
 	 */
 	@GetMapping("/metadata")
@@ -46,8 +46,8 @@ public class ProdottiController {
 	}
 	
 	/**
-	 * This method prints out a list of products with code = filter
-	 * @return a list of products with code = filter
+	 * This method prints out a list of products with productcode = filter
+	 * @return a list of products with productcode = filter
 	 */
 	@GetMapping("/prodotti/{filter}")
 	public List<Prodotti> getPByCode(@PathVariable int filter){
@@ -55,8 +55,8 @@ public class ProdottiController {
 	}
 	
 	/**
-	 * This method prints out a list of count for each type of product
-	 * @return a list of count for each type of product
+	 * This method prints out a list of fields with their number of elements
+	 * @return a list of fields with their number of elements
 	 */
 	@GetMapping("/statstring")
 	public List<Conteggio> getCountElem(@RequestParam(value = "filter", required=false)String filter,@RequestParam String field){
@@ -64,8 +64,8 @@ public class ProdottiController {
 			return prodottiService.getCountElement(field,filter);		
 	}
 	/**
-	 * This method prints out a list of products filtered with code
-	 * @return a list of products filtered with code
+	 * This method prints out a list of products filtered by logical or conditional operators
+	 * @return a list of products filtered
 	 */
 	@PostMapping(path="/prodotti", consumes= {"application/JSON"})
 	public List<Prodotti> getPByCode(@RequestBody String filter){
@@ -73,11 +73,11 @@ public class ProdottiController {
 	}
 	
 	/**
-	 * This method prints out statistics all data
-	 * @return statistics all data
+	 * This method prints out statistics of a field filtered or no
+	 * @return statistics of a field
 	 */
 	@GetMapping("/stats")
-	public Item getStats(@RequestParam(value = "filter", required=false)String filter,@RequestParam String field)  {
+	public Item getStats(@RequestParam(value = "filter", required=false)String filter,@RequestParam(value = "field", required=true) String field)  {
 		return prodottiService.getStatsFiltro(filter, field);
 	}
 	

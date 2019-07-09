@@ -12,13 +12,13 @@ public class Item {
 	
 	/**
 	 * 
-	 * @param field is the param of filter
+	 * @param field is the name of the column to take for doing its stats
 	 * @param avg is the average
 	 * @param min is the minimum
 	 * @param max is the maximum
-	 * @param std 
+	 * @param std is the standard deviation
 	 * @param sum is the sum of element
-	 * @param count 
+	 * @param count is the number of the element
 	 */
 	public Item(String field, double avg, double min, double max, double std, double sum, int count) {
 		this.field = field;
