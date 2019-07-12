@@ -13,9 +13,13 @@ o elencare esempi di test che saranno utilizzati per la verifica delle funzional
 ```mermaid
 sequenceDiagram
 
+partecipant PoProjectApplication
 participant ProdottiController
 participant ProdottiService
 participant DownloadCSV
+
+PoProjectApplication ->> ProdottiService: init()
+
 ProdottiService ->>+DownloadCSV: Download file csv
 DownloadCSV-->>-ProdottiService: file csv
 
