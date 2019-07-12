@@ -108,13 +108,13 @@ public class ProdottiService implements InterfaceService{
 	@Override
 	public List<Prodotti> getProductByCode(int productCode){
 		List<Prodotti> prodotti = getAllProducts();
-		List<Prodotti> prova = new ArrayList<>();
+		List<Prodotti> prod = new ArrayList<>();
 		for(Prodotti p: prodotti){
 			if(p.getProductCode() == productCode){
-				prova.add(p);
+				prod.add(p);
 			}
 		}
-		return prova;
+		return prod;
 	}
 
 	/**
@@ -208,26 +208,26 @@ public class ProdottiService implements InterfaceService{
 
 		List<Prodotti> prodotti = getAllProducts();
 
-		List<Prodotti> prova = new ArrayList<>();
+		List<Prodotti> prod = new ArrayList<>();
 		switch(filtro.get(0)){
 		case "prezzo":
 			for(Prodotti p: prodotti) {
 				if(opPrezzo(p.getMarketPrice(),filtro.get(1),filtro.get(2)))
-					prova.add(p);
+					prod.add(p);
 			}
 			break;
 			
 		case "country":
 			for(Prodotti p: prodotti) {
 				if(opString(p.getCountry(),filtro.get(1),filtro.get(2)))
-					prova.add(p);
+					prod.add(p);
 			}
 			break;
 			
 		case "desc":
 			for(Prodotti p: prodotti) {
 				if(opString(p.getDesc(),filtro.get(1),filtro.get(2)))
-					prova.add(p);
+					prod.add(p);
 			}
 			break;
 			
@@ -236,7 +236,7 @@ public class ProdottiService implements InterfaceService{
 			
 	
 		}
-		return prova;
+		return prod;
 	}
 	
 	/**
@@ -320,7 +320,7 @@ public class ProdottiService implements InterfaceService{
 	@Override
 	public List<Conteggio> getCountElement(String field, String filter) {
 		List<Prodotti> prodotti;
-		List<Conteggio> prova = new ArrayList<>();
+		List<Conteggio> prod = new ArrayList<>();
 		List<String> list = new ArrayList<>();
 
 		if(filter!=null) {
@@ -336,7 +336,7 @@ public class ProdottiService implements InterfaceService{
 					}
 					Set<String> distinct = new HashSet<>(list);		
 					for(String s:distinct){
-						prova.add(new Conteggio(s,Collections.frequency(list, s)));
+						prod.add(new Conteggio(s,Collections.frequency(list, s)));
 						
 					}
 					
@@ -348,7 +348,7 @@ public class ProdottiService implements InterfaceService{
 					}
 					Set<String> distinct2 = new HashSet<>(list);		
 					for(String s:distinct2){
-						prova.add(new Conteggio(s,Collections.frequency(list, s)));
+						prod.add(new Conteggio(s,Collections.frequency(list, s)));
 						
 					}
 				break;
@@ -358,7 +358,7 @@ public class ProdottiService implements InterfaceService{
 					
 			}
 		
-		return prova;
+		return prod;
 	}
 
 	/**

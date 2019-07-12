@@ -42,7 +42,7 @@ public class ProdottiController {
 	 * @return  a list of all products
 	 */
 	@GetMapping("/prodotti")
-	public List<Prodotti> prodottiFilterPrice(){
+	public List<Prodotti> getAllProducts(){
 			return prodottiService.getAllProducts();
 	}
 	
@@ -51,7 +51,7 @@ public class ProdottiController {
 	 * @return a list of products with productcode = filter
 	 */
 	@GetMapping("/prodotti/{filter}")
-	public List<Prodotti> getPByCode(@PathVariable int filter){
+	public List<Prodotti> getProductByCode(@PathVariable int filter){
 		return prodottiService.getProductByCode(filter);
 	}
 	
@@ -69,7 +69,7 @@ public class ProdottiController {
 	 * @return a list of products filtered
 	 */
 	@PostMapping(path="/prodotti", consumes= {"application/JSON"})
-	public List<Prodotti> getPByCode(@RequestBody String filter){
+	public List<Prodotti> getProductByCodeFiltro(@RequestBody String filter){
 		return prodottiService.getProductByCodeFiltro(filter);
 	}
 	
@@ -78,7 +78,7 @@ public class ProdottiController {
 	 * @return statistics of a field
 	 */
 	@GetMapping("/stats")
-	public Item getStats(@RequestParam(value = "filter", required=false)String filter,@RequestParam(value = "field", required=true) String field)  {
+	public Item getStatsFiltro(@RequestParam(value = "filter", required=false)String filter,@RequestParam(value = "field", required=true) String field)  {
 		return prodottiService.getStatsFiltro(filter, field);
 	}
 	
