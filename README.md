@@ -9,6 +9,7 @@ o elencare esempi di test che saranno utilizzati per la verifica delle funzional
 
 
 ## Sequence diagrams
+![UML](https://github.com/marcoamt/ProgettoProgOggetti/blob/master/POProject/src/main/java/sequencediagram.png)
 ```mermaid
 sequenceDiagram
 
