@@ -3,11 +3,7 @@ package service;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Field;
-import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -18,7 +14,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -380,7 +375,11 @@ public class ProdottiService implements InterfaceService{
 		int count = 0;
 		
 		if(filter!=null) {
-			prodotti=getProductByCodeFiltro( filter);
+			if(filter=="prezzo") {
+				prodotti=getProductByCodeFiltro( filter);
+			}else {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "field " + field + " not suported");
+			}
 		}else {
 			prodotti = getAllProducts();
 		}

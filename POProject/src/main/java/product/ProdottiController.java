@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import conteggio.Conteggio;
 import item.Item;
 import metadati.Metadati;
+import service.ProdottiService;
 
 @RestController
 public class ProdottiController {
