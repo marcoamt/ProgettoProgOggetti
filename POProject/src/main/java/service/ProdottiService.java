@@ -373,15 +373,15 @@ public class ProdottiService implements InterfaceService{
 		List<Double> prezzi=new ArrayList<>();
 		double avg=0, min=0, max=0, std=0, sum=0;
 		int count = 0;
-		
-		if(filter!=null) {
-			if(filter=="prezzo") {
+		if(field.equals("prezzo")) {
+			if(filter!=null) {
+			
 				prodotti=getProductByCodeFiltro( filter);
 			}else {
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "field " + field + " not suported");
+				prodotti = getAllProducts();
 			}
 		}else {
-			prodotti = getAllProducts();
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "field " + field + " not suported");
 		}
 
 		for(Prodotti p: prodotti) {
