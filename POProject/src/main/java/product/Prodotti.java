@@ -1,16 +1,12 @@
 package product;
 
-public class Prodotti {
+public class Prodotti extends ProductAbs{
 
-	private String category;
 	private String sectorCode;
-	private int productCode;
-	private String desc;
 	private String briefDesc;
 	private String unit;
 	private String country;
 	private int period;
-	private double marketPrice;
 	
 	/**
 	 * 
@@ -26,32 +22,14 @@ public class Prodotti {
 	 */
 	public Prodotti(String category, String sectorCode, int productCode, String desc, String briefDesc, String unit,
 			String country, int period, double marketPrice) {
-		this.category = category;
+		super(category, productCode, desc, marketPrice);
 		this.sectorCode = sectorCode;
-		this.productCode = productCode;
-		this.desc = desc;
 		this.briefDesc = briefDesc;
 		this.unit = unit;
 		this.country = country;
 		this.period = period;
-		this.marketPrice = marketPrice;
 	}
 
-	/**
-	 * 
-	 * @return the description of products
-	 */
-	public String getDesc() {
-		return desc;
-	}
-
-	/**
-	 * 
-	 * @param desc is the description of products
-	 */
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
 
 	/**
 	 * 
@@ -87,43 +65,12 @@ public class Prodotti {
 
 	/**
 	 * 
-	 * @return the price of products at market 
-	 */
-	public double getMarketPrice() {
-		return marketPrice;
-	}
-
-	/**
-	 * 
-	 * @param marketPrice is the price of products at market
-	 */
-	public void setMarketPrice(double marketPrice) {
-		this.marketPrice = marketPrice;
-	}
-
-	/**
-	 * 
-	 * @return the category of products
-	 */
-	public String getCategory() {
-		return category;
-	}
-
-	/**
-	 * 
 	 * @return the sector code of products
 	 */
 	public String getSectorCode() {
 		return sectorCode;
 	}
 
-	/**
-	 * 
-	 * @return the product code of products
-	 */
-	public int getProductCode() {
-		return productCode;
-	}
 
 	/**
 	 * 
@@ -141,13 +88,5 @@ public class Prodotti {
 		return period;
 	}
 
-	/**
-	 * 
-	 * @param productCode is the code of products
-	 */
-	public void setProductCode(int productCode) {
-		this.productCode = productCode;
-	}
-	
 
 }

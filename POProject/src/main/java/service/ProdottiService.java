@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -60,7 +61,8 @@ public class ProdottiService implements InterfaceService{
 				   }else {
 					   data=line.split(","); 
 					   int cont=0;
-					   for(Field a : Prodotti.class.getDeclaredFields())//per ogni attributo della classe assoccio il suo nome nel dataset e il suo tipo
+					   List<Field> b =getAllFields(new ArrayList<Field>(), Prodotti.class);
+					   for(Field a : b)//per ogni attributo della classe assoccio il suo nome nel dataset e il suo tipo
 					   {
 						   meta.add(new Metadati(a.getName(),data[cont],a.getType().getSimpleName())); //aggiungo i metadata di ogni attributo in un array list
 						   cont++;
@@ -78,6 +80,16 @@ public class ProdottiService implements InterfaceService{
 			System.out.println(e.toString());
 			System.exit(1);
 		}
+	}
+	
+	public static List<Field> getAllFields(List<Field> fields, Class<?> type) {
+	    fields.addAll(Arrays.asList(type.getDeclaredFields()));
+
+	    if (type.getSuperclass() != null) {
+	        getAllFields(fields, type.getSuperclass());
+	    }
+
+	    return fields;
 	}
 	
 
