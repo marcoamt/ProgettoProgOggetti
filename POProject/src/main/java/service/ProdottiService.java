@@ -79,7 +79,7 @@ public class ProdottiService implements InterfaceService, Utility{
 			 } finally {
 				 br.close();
 			 }
-			System.out.println( "OK" );
+			System.out.println( "Dati salvati" );
 		}catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -197,7 +197,7 @@ public class ProdottiService implements InterfaceService, Utility{
 	        Object keyvalue = jsonObj.get(keyStr);
 
 	        //Print key and value
-	        System.out.println("key: "+ keyStr + " value: " + keyvalue);
+	        //System.out.println("key: "+ keyStr + " value: " + keyvalue);
 	        filtro.add(keyStr);
 
 	        //for nested objects iteration if required
@@ -275,8 +275,8 @@ public class ProdottiService implements InterfaceService, Utility{
 			case "$bt":
 				String d=dati.replaceAll("[^.-?0-9]+", " ");
 				String[] n=d.split(" ");
-				System.out.println(n[1]);
-				System.out.println(n[2]);
+				//System.out.println(n[1]);
+				//System.out.println(n[2]);
 					if(price<=Double.parseDouble(n[2]) && price>=Double.parseDouble(n[1]))
 							return true;
 			break;
