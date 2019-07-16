@@ -7,6 +7,11 @@ import item.Item;
 import metadati.Metadati;
 import product.Prodotti;
 
+/**
+ * 
+ * Interface that contains all the main methods used by the service when is called by the controller
+ *
+ */
 public interface InterfaceService {
 
 	public abstract List<Prodotti> getAllProducts();

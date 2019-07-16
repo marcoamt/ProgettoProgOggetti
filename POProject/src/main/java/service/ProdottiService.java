@@ -25,22 +25,28 @@ import parseJSON.DownloadCSV;
 import product.Prodotti;
 
 @Service
-public class ProdottiService implements InterfaceService{
+public class ProdottiService implements InterfaceService, Utility{
 
 	/**
 	 * @param products 
 	 * @param meta
 	 * @param filtro
+	 * @param download
+	 * @param item
+	 * @param prod
 	 */
-	public static List<Prodotti> products = new ArrayList<>();
-	public static List<Metadati> meta = new ArrayList<>();
-	public static List<String> filtro;
+	private static List<Prodotti> products = new ArrayList<>();
+	private static List<Metadati> meta = new ArrayList<>();
+	private static List<Conteggio> prod = new ArrayList<>();
+	private static DownloadCSV download;
+	private static List<String> filtro;
+	private static Item item;
 
 
 	public ProdottiService(){
-		DownloadCSV d=new DownloadCSV("http://data.europa.eu/euodp/data/api/3/action/package_show?id=eu-prices-for-selected-dairy-products");
+		download=new DownloadCSV("http://data.europa.eu/euodp/data/api/3/action/package_show?id=eu-prices-for-selected-dairy-products");
 		
-		String path=d.scarica();
+		String path=download.scarica();
 		try{
 			FileReader fr=new FileReader(path);
 			BufferedReader br= new BufferedReader(fr);
@@ -82,7 +88,12 @@ public class ProdottiService implements InterfaceService{
 		}
 	}
 	
-	public static List<Field> getAllFields(List<Field> fields, Class<?> type) {
+	/**
+	 * this is a recursive method that allows to have all the fields of a class and it's superclass
+	 * @return list of all fields in the class passes
+	 */
+	
+	public List<Field> getAllFields(List<Field> fields, Class<?> type) {
 	    fields.addAll(Arrays.asList(type.getDeclaredFields()));
 
 	    if (type.getSuperclass() != null) {
@@ -134,7 +145,7 @@ public class ProdottiService implements InterfaceService{
 	 * @param p is a list of double element
 	 * @return the max of list
 	 */
-	public static double max(List<Double> p) {
+	public double max(List<Double> p) {
 		Double mx=p.get(0);
 		for(int i=1;i<p.size();i++) {
 		if(p.get(i)>mx)
@@ -149,7 +160,7 @@ public class ProdottiService implements InterfaceService{
 	 * @param p is a list of double element
 	 * @return the min of list
 	 */
-	public static double min(List<Double> p) {
+	public double min(List<Double> p) {
 		Double mn=p.get(0);
 		for(int i=1;i<p.size();i++) {
 			if(p.get(i)<mn)
@@ -164,7 +175,7 @@ public class ProdottiService implements InterfaceService{
 	 * @param avg is the average
 	 * @return 
 	 */
-	public static double std(List<Double> p, double avg) {
+	public double std(List<Double> p, double avg) {
 		double somm=0;
 		for(Double pr:p) {
 			somm+=Math.pow((pr-avg),2);
@@ -332,7 +343,6 @@ public class ProdottiService implements InterfaceService{
 	@Override
 	public List<Conteggio> getCountElement(String field, String filter) {
 		List<Prodotti> prodotti;
-		List<Conteggio> prod = new ArrayList<>();
 		List<String> list = new ArrayList<>();
 
 		if(filter!=null) {
@@ -406,8 +416,8 @@ public class ProdottiService implements InterfaceService{
 		max =max(prezzi);
 		min =min(prezzi);
 		std = std(prezzi, avg);
-		
-		return new Item(field, avg, min, max, std, sum, count);
+		item =new Item(field, avg, min, max, std, sum, count);
+		return item;
 	}
 	
 	
