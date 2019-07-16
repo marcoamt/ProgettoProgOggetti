@@ -63,7 +63,7 @@ A seguito del tipo di richiesta effettuata, il formato con cui i dati sarranno r
     }
  ```
  
-> POST/prodotti:
+> POST/prodotti
 > - corpo della richiesta contiene il filtro {"prezzo": {"$bt": [30.45,30.47]}}    
 ``` json
     {
