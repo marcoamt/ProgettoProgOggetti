@@ -63,7 +63,8 @@ Richiesta GET/metadata
     }
  ```
  
-Richiesta POST/prodotti - corpo della richiesta contiene il filtro {"prezzo": {"$bt": [30.45,30.47]}}    
+Richiesta POST/prodotti:
+- corpo della richiesta contiene il filtro {"prezzo": {"$bt": [30.45,30.47]}}    
 ``` json
     {
         "category": "Dairy products",
@@ -88,6 +89,56 @@ Richiesta POST/prodotti - corpo della richiesta contiene il filtro {"prezzo": {"
         "period": 201708
     }
 ```
+- corpo della richiesta contiene il filtro {"country": {"$in": ["IT"]}}
+``` json   
+   {
+        "category": "Dairy products",
+        "productCode": 1107,
+        "desc": "Raw Milk",
+        "marketPrice": 39.07,
+        "sectorCode": "LAI",
+        "briefDesc": "Raw milk - Lait cru",
+        "unit": "€/100 kg",
+        "country": "IT",
+        "period": 201905
+    },
+    {
+        "category": "Dairy products",
+        "productCode": 254,
+        "desc": "Butter",
+        "marketPrice": 384,
+        "sectorCode": "LAI",
+        "briefDesc": "Butter - Beurre",
+        "unit": "€/100 kg",
+        "country": "IT",
+        "period": 201905
+    }
+```
+- corpo della richiesta contiene il filtro {"desc": {"$not": "Raw Milk"}}
+``` json
+    {
+        "category": "Dairy products",
+        "productCode": 249,
+        "desc": "SMP",
+        "marketPrice": 201.95,
+        "sectorCode": "LAI",
+        "briefDesc": "\"Skimmed milk powder, Intervention Quality - Lait écrémé en poudre\"",
+        "unit": "€/100 kg",
+        "country": "EU",
+        "period": 201905
+    },
+    {
+        "category": "Dairy products",
+        "productCode": 249,
+        "desc": "SMP",
+        "marketPrice": 206.43,
+        "sectorCode": "LAI",
+        "briefDesc": "\"Skimmed milk powder, Intervention Quality - Lait écrémé en poudre\"",
+        "unit": "€/100 kg",
+        "country": "BE",
+        "period": 201905
+    }
+``` 
 
 Filtro GET/statstring?field=desc&filter={"prezzo": {"$bt": [20, 30]}}
 ```json
