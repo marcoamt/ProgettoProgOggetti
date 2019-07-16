@@ -8,7 +8,7 @@ Le rotte utilizzate nell'applicazione per fare le diverse richieste sono le segu
 - GET/statstring: uhdiuhwefuiwe
 - GET/stats: jnfqurjk
 
-##Filtri
+## Filtri
 I filtri utilizzati nelle diverse richieste sono i seguenti:
 - GET/prodotti/{filter}
 - POST/prodotti
