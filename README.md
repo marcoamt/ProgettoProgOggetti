@@ -18,7 +18,7 @@ I filtri implementati sono $bt, $gt, $in e $not.
 ## Formato dati 
 A seguito del tipo di richiesta effettuata, il formato con cui i dati sarranno restituiti è il formato JSON che rappresenta un array di oggetti con i dati del dataset. 
 
-> Richiesta GET/prodotti
+> GET/prodotti
 ```json
     {
         "category": "Dairy products",
@@ -44,7 +44,7 @@ A seguito del tipo di richiesta effettuata, il formato con cui i dati sarranno r
     }
 ```
 
-Richiesta GET/metadata
+> GET/metadata
 ```json
     {
         "alias": "sectorCode",
@@ -63,8 +63,8 @@ Richiesta GET/metadata
     }
  ```
  
-Richiesta POST/prodotti:
-- corpo della richiesta contiene il filtro {"prezzo": {"$bt": [30.45,30.47]}}    
+> POST/prodotti:
+> - corpo della richiesta contiene il filtro {"prezzo": {"$bt": [30.45,30.47]}}    
 ``` json
     {
         "category": "Dairy products",
@@ -89,7 +89,7 @@ Richiesta POST/prodotti:
         "period": 201708
     }
 ```
-- corpo della richiesta contiene il filtro {"country": {"$in": ["IT"]}}
+> - corpo della richiesta contiene il filtro {"country": {"$in": ["IT"]}}
 ``` json   
    {
         "category": "Dairy products",
@@ -114,7 +114,7 @@ Richiesta POST/prodotti:
         "period": 201905
     }
 ```
-- corpo della richiesta contiene il filtro {"desc": {"$not": "Raw Milk"}}
+> - corpo della richiesta contiene il filtro {"desc": {"$not": "Raw Milk"}}
 ``` json
     {
         "category": "Dairy products",
@@ -140,7 +140,7 @@ Richiesta POST/prodotti:
     }
 ``` 
 
-Filtro GET/statstring?field=desc&filter={"prezzo": {"$bt": [20, 30]}}
+> GET/statstring?field=desc&filter={"prezzo": {"$bt": [20, 30]}}
 ```json
     {
         "element": "Whey Powder",
@@ -152,7 +152,7 @@ Filtro GET/statstring?field=desc&filter={"prezzo": {"$bt": [20, 30]}}
     }
 ```
 
-Filtro GET/prodotti/1107
+> GET/prodotti/1107
 ```json
     {
         "category": "Dairy products",
@@ -178,7 +178,7 @@ Filtro GET/prodotti/1107
     },
 ```
 
-Filtro GET/stats?field=prezzo&filter={"prezzo": {"$gt": 30}} 
+> GET/stats?field=prezzo&filter={"prezzo": {"$gt": 30}} 
 ``` json
 {
     "field": "prezzo",                          
@@ -191,7 +191,7 @@ Filtro GET/stats?field=prezzo&filter={"prezzo": {"$gt": 30}}
 }
 ```
 
-Filtro GET/stats?field=prezzo
+> GET/stats?field=prezzo
 ``` json
 {
     "field": "prezzo",
