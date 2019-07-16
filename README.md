@@ -118,24 +118,24 @@ A seguito del tipo di richiesta effettuata, il formato con cui i dati sarranno r
 ``` json
     {
         "category": "Dairy products",
-        "productCode": 249,
-        "desc": "SMP",
-        "marketPrice": 201.95,
+        "productCode": 254,
+        "desc": "Butter",
+        "marketPrice": 412.5,
         "sectorCode": "LAI",
-        "briefDesc": "\"Skimmed milk powder, Intervention Quality - Lait écrémé en poudre\"",
+        "briefDesc": "Butter - Beurre",
         "unit": "€/100 kg",
-        "country": "EU",
+        "country": "BE",
         "period": 201905
     },
     {
         "category": "Dairy products",
-        "productCode": 249,
-        "desc": "SMP",
-        "marketPrice": 206.43,
+        "productCode": 254,
+        "desc": "Butter",
+        "marketPrice": 434.36,
         "sectorCode": "LAI",
-        "briefDesc": "\"Skimmed milk powder, Intervention Quality - Lait écrémé en poudre\"",
+        "briefDesc": "Butter - Beurre",
         "unit": "€/100 kg",
-        "country": "BE",
+        "country": "CZ",
         "period": 201905
     }
 ``` 
