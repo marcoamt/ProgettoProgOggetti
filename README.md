@@ -45,6 +45,7 @@ Richiesta GET/prodotti
 ```
 
 Richiesta GET/metadata
+```json
     {
         "alias": "sectorCode",
         "sourceFields": "Category",
@@ -60,8 +61,10 @@ Richiesta GET/metadata
         "sourceFields": "Product code",
         "type": "String"
     }
-    
+ ```
+ 
 Richiesta POST/prodotti - corpo della richiesta contiene il filtro {"prezzo": {"$bt": [30.45,30.47]}}    
+``` json
     {
         "category": "Dairy products",
         "productCode": 1107,
@@ -84,8 +87,10 @@ Richiesta POST/prodotti - corpo della richiesta contiene il filtro {"prezzo": {"
         "country": "HU",
         "period": 201708
     }
+```
 
 Filtro GET/statstring?field=desc&filter={"prezzo": {"$bt": [20, 30]}}
+```json
     {
         "element": "Whey Powder",
         "count": 43
@@ -94,8 +99,10 @@ Filtro GET/statstring?field=desc&filter={"prezzo": {"$bt": [20, 30]}}
         "element": "Raw Milk",
         "count": 1828
     }
-    
+```
+
 Filtro GET/prodotti/1107
+```json
     {
         "category": "Dairy products",
         "productCode": 1107,
@@ -118,8 +125,11 @@ Filtro GET/prodotti/1107
         "country": "BG",
         "period": 201905
     },
+```
 
-Filtro GET/stats?field=prezzo&filter={"prezzo": {"$gt": 30}}   
+Filtro GET/stats?field=prezzo&filter={"prezzo": {"$gt": 30}} 
+``` json
+{
     "field": "prezzo",                          
     "avg": 258.8342230711069,
     "min": 30.01,
@@ -128,8 +138,10 @@ Filtro GET/stats?field=prezzo&filter={"prezzo": {"$gt": 30}}
     "sum": 6504762.859999987,
     "count": 25131
 }
+```
 
 Filtro GET/stats?field=prezzo
+``` json
 {
     "field": "prezzo",
     "avg": 242.23794827267662,
@@ -139,7 +151,7 @@ Filtro GET/stats?field=prezzo
     "sum": 6556170.069999993,
     "count": 27065
 }
-
+```
 
 ## UML diagrams
 ![UML](https://github.com/marcoamt/ProgettoProgOggetti/blob/master/POProject/src/main/java/UML.png)
