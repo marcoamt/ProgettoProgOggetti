@@ -37,7 +37,7 @@ public class ProdottiService implements InterfaceService, Utility{
 	 */
 	private static List<Prodotti> products = new ArrayList<>();
 	private static List<Metadati> meta = new ArrayList<>();
-	private static List<Conteggio> prod = new ArrayList<>();
+	private static List<Conteggio> prod ;
 	private static DownloadCSV download;
 	private static List<String> filtro;
 	private static Item item;
@@ -384,6 +384,7 @@ public class ProdottiService implements InterfaceService, Utility{
 	public List<Conteggio> getCountElement(String field, String filter) {
 		List<Prodotti> prodotti;
 		List<String> list = new ArrayList<>();
+		prod = new ArrayList<>();
 
 		if(filter!=null) {
 			prodotti=getProductByCodeFiltro( filter);
