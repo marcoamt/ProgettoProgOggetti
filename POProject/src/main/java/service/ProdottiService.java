@@ -71,12 +71,41 @@ public class ProdottiService implements InterfaceService, Utility{
 					   }
 				   }else {
 					   data=line.split(","); 
-					   int cont=0;
 					   List<Field> b =getAllFields(new ArrayList<Field>(), Prodotti.class);
 					   for(Field a : b)//per ogni attributo della classe assoccio il suo nome nel dataset e il suo tipo
 					   {
-						   meta.add(new Metadati(a.getName(),data[cont],a.getType().getSimpleName())); //aggiungo i metadata di ogni attributo in un array list
-						   cont++;
+						   String s = a.getName().toString();
+						   switch (s) {
+							   case "category":
+								   meta.add(new Metadati(a.getName(),data[0],a.getType().getSimpleName())); //aggiungo i metadata di ogni attributo in un array list
+							break;
+							   case "sectorCode":
+								   meta.add(new Metadati(a.getName(),data[1],a.getType().getSimpleName())); //aggiungo i metadata di ogni attributo in un array list
+							break;
+							   case "productCode":
+								   meta.add(new Metadati(a.getName(),data[2],a.getType().getSimpleName())); //aggiungo i metadata di ogni attributo in un array list
+							break;
+							   case "desc":
+								   meta.add(new Metadati(a.getName(),data[3],a.getType().getSimpleName())); //aggiungo i metadata di ogni attributo in un array list
+							break;
+							case "briefDesc":
+								   meta.add(new Metadati(a.getName(),data[4],a.getType().getSimpleName())); //aggiungo i metadata di ogni attributo in un array list
+							break;
+							case "unit":
+								   meta.add(new Metadati(a.getName(),data[5],a.getType().getSimpleName())); //aggiungo i metadata di ogni attributo in un array list
+							break;
+							case "country":
+								   meta.add(new Metadati(a.getName(),data[6],a.getType().getSimpleName())); //aggiungo i metadata di ogni attributo in un array list
+							break;
+
+							case "period":
+								   meta.add(new Metadati(a.getName(),data[7],a.getType().getSimpleName())); //aggiungo i metadata di ogni attributo in un array list
+							break;
+							case "marketPrice":
+								   meta.add(new Metadati(a.getName(),data[8],a.getType().getSimpleName())); //aggiungo i metadata di ogni attributo in un array list
+							break;
+						   }
+						   
 					   }
 				   }
 				   i++;
