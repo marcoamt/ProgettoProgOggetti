@@ -219,14 +219,18 @@ if(data.length == meta.size()){products.add(new Prodotti(data[0],data[1],Integer
 ```
 
 ### Richiesta sbagliata
-Se al momento di fare una richiesta l'utente digita un campo su cui non è possibile fare alcuna operazione, il server inoltrerà una http bad request con il corrispondente messaggio di errore, ad esempio digitando {"descrizione": {"$in": ["IT"]}} il campo descrizione non è supportato, allora verrà mostrato il seguente messaggio
+Se al momento di fare una richiesta l'utente digita un campo su cui non è possibile fare alcuna operazione, il server inoltrerà una http bad request con il corrispondente messaggio di errore, ad esempio digitando 
+```json
+{"descrizione": {"$in": ["IT"]}} 
+```
+il campo descrizione non è supportato, allora verrà mostrato il seguente messaggio
 
 ```json
 {
     "timestamp": "2019-07-17T08:17:36.764+0000",
     "status": 400,
     "error": "Bad Request",
-    "message": "operator $in not suported, only supported $bt, $gt",
+    "message": "field descrizione not suported",
     "path": "/prodotti"
 }
 ```
