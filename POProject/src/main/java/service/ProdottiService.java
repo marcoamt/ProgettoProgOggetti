@@ -45,6 +45,7 @@ public class ProdottiService implements InterfaceService, Utility{
 	/**
 	 * constructor that will download the file csv using {@link parseJSON.DownloadCSV}
 	 * after that it will save the dataset in a List of {@link product.Prodotti} object
+	 * and it will save all metadata in a list
 	 */
 
 	public ProdottiService(){
@@ -70,9 +71,13 @@ public class ProdottiService implements InterfaceService, Utility{
 							System.exit(1);
 					   }
 				   }else {
+					   //per la prima riga cioè dove troviamo gli attributi del dataset 
 					   data=line.split(","); 
+					   //prendiamo tutti gli attributi della classe prodotti
 					   List<Field> b =getAllFields(new ArrayList<Field>(), Prodotti.class);
-					   for(Field a : b)//per ogni attributo della classe assoccio il suo nome nel dataset e il suo tipo
+					   
+					   //per ogni atributo della classe Prodotti troviamo il corrispondente nel dataset e lo aggiungiamo alla lista di tipo Metadati
+					   for(Field a : b)
 					   {
 						   String s = a.getName().toString();
 						   switch (s) {
