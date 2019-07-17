@@ -51,17 +51,17 @@ A seguito del tipo di richiesta effettuata, il formato con cui i dati sarranno r
 ```json
     {
         "alias": "sectorCode",
-        "sourceFields": "Category",
-        "type": "String"
-    },
-    {
-        "alias": "briefDesc",
         "sourceFields": "Sector code",
         "type": "String"
     },
     {
+        "alias": "briefDesc",
+        "sourceFields": "Product Brief Description",
+        "type": "String"
+    },
+    {
         "alias": "unit",
-        "sourceFields": "Product code",
+        "sourceFields": "Unit",
         "type": "String"
     }
  ```
