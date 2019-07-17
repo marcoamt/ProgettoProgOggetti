@@ -206,6 +206,28 @@ A seguito del tipo di richiesta effettuata, il formato con cui i dati sarranno r
     "count": 27065
 }
 ```
+##Gestione degli errori
+
+#Numero attributi errato
+Se durante il processo di importazione si riscontra che il numero di attributi di una riga del dataset non corrisponde al umero effettivo di campi del dataset viene stampato nella console la riga che ha causato l'errore e l'esecuzione del programma viene arrestata.
+if(data.length == meta.size()){products.add(new Prodotti(data[0],data[1],Integer.parseInt(data[2]),data[3],data[4],data[5],data[6],Integer.parseInt(data[7]),Double.parseDouble(data[8])));
+}else{
+      System.out.println("Numero di informazioni della riga [" + i + "] non coincide con il numero di campi del dataset");
+		System.exit(1);
+}
+
+#Richiesta sbagliata
+Se al momento di fare una richiesta l'utente digita un campo su cui non è possibile fare alcuna operazione, il server inoltrerà una http bad request con il corrispondente messaggio di errore, ad esempio digitando {"descrizione": {"$in": ["IT"]}} il campo descrizione non è supportato, allora verrà mostrato il seguente messaggio
+
+```json
+{
+    "timestamp": "2019-07-17T08:17:36.764+0000",
+    "status": 400,
+    "error": "Bad Request",
+    "message": "operator $in not suported, only supported $bt, $gt",
+    "path": "/prodotti"
+}
+```
 
 ## UML diagram
 ![UML](https://github.com/marcoamt/ProgettoProgOggetti/blob/master/UML.png)
