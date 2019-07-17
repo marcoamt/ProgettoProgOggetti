@@ -19,7 +19,7 @@ I filtri implementati sono $bt, $gt, $in e $not.
 ## Formato dati 
 A seguito del tipo di richiesta effettuata, il formato con cui i dati sarranno restituiti è il formato JSON che rappresenta un array di oggetti con i dati del dataset. 
 
-> #GET/prodotti
+> ##GET/prodotti
 ```json
     {
         "category": "Dairy products",
