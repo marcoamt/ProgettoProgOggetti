@@ -1,5 +1,5 @@
 # ProgettoProgOggetti
-L'aplicazione sviluppata è una applicazione REST API che ricava i dati da un dataset contenuto all'interno di un file csv e consente di effettuare alcune operazioni statistiche sui campi e operazioni di ricerca attraverso l'utilizzo di filtri. Queste feature dell'applicazione vengono soddisfate grazie all'utilizzo del framework Spring usando il modello MVC.
+L'aplicazione sviluppata è una applicazione REST API che ricava i dati da un dataset contenuto all'interno di un file csv e consente di effettuare alcune operazioni statistiche sui campi e operazioni di ricerca attraverso l'utilizzo di filtri. Queste feature dell'applicazione vengono soddisfatte grazie all'utilizzo del framework Spring usando il modello MVC.
 L'utente per avere dei risultati dovrà andare su un web browser o su un tool come Postman per inoltrare le richieste specificando una delle seguenti rotte utilizzando anche specifici filtri sui dati.
 
 ## Rotte 
@@ -19,7 +19,7 @@ I filtri implementati sono $bt, $gt, $in e $not.
 ## Formato dati 
 A seguito del tipo di richiesta effettuata, il formato con cui i dati sarranno restituiti è il formato JSON che rappresenta un array di oggetti con i dati del dataset. 
 
-> GET/prodotti
+> #GET/prodotti
 ```json
     {
         "category": "Dairy products",
