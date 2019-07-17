@@ -20,15 +20,23 @@ public class DownloadCSV {
 	
 	private String url;
 	
+	/**
+	 * constructor method
+	 * @param url is the link to the JSON file where ther's the link to download the file .csv
+	 */
 	public DownloadCSV(String url) {
 		this.url=url;
 	}
 	
+	/**
+	 * method to find the .csv file and download it using @link down
+	 * this method writes on console if the file exists or no
+	 * @return path of the file saved on local
+	 */
 	public String scarica() {
-        	String path="market-prices-dairy-products_en.csv";
+    	String path="market-prices-dairy-products_en.csv";
 		try {
 
-			
 			URLConnection openConnection = new URL(url).openConnection();
 			openConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
 			InputStream in = openConnection.getInputStream();
@@ -58,7 +66,7 @@ public class DownloadCSV {
 			        System.out.println(format + " | " + urlD);
 			        if(format.endsWith("/CSV")) {
 			    		File f= new File(path);
-			    		if(!f.exists()) {
+			    		if(!f.exists()) { //if the file exists don't download it
 			        	down(urlD, "market-prices-dairy-products_en.csv");
 			        	System.out.println( "Download effettuato" );
 			    		}
@@ -68,13 +76,22 @@ public class DownloadCSV {
 			        }
 			    }
 			}
-		} catch (IOException | ParseException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (Exception e) {
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}	catch (Exception e) {
 			e.printStackTrace();
 		}
 		return path;
 	}
+	
+	/**
+	 * 
+	 * @param url is the url of file
+	 * @param fileName is the name of file
+	 * @throws Exception
+	 */
 	
 	public static void down(String url, String fileName) throws Exception {
 	    try (InputStream in = URI.create(url).toURL().openStream()) {

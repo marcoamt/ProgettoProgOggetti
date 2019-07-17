@@ -9,7 +9,11 @@ import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerF
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
-
+/**
+ * 
+ * set the start packages like service and product where there are controller and service
+ *
+ */
 @ComponentScan(basePackages = { "product", "service"} )
 
 
@@ -20,6 +24,10 @@ public class PoProjectApplication {
 		SpringApplication.run(PoProjectApplication.class, args);
 		
 	}
+	/**
+	 * this method allows users to write on the request these characters |{}[]
+	 * @return custom connection
+	 */
 	@Bean
 	public ConfigurableServletWebServerFactory webServerFactory() {
 	    TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory();

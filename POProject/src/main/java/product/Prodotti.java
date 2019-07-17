@@ -1,5 +1,11 @@
 package product;
 
+/**
+ * 
+ * Class that represents each row of the dataset, this extends from ProductAbs
+ *
+ */
+
 public class Prodotti extends ProductAbs{
 
 	private String sectorCode;

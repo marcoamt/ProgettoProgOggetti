@@ -48,6 +48,7 @@ public class ProdottiController {
 	
 	/**
 	 * This method prints out a list of products with productcode = filter
+	 * @param filter wrote by the user
 	 * @return a list of products with productcode = filter
 	 */
 	@GetMapping("/prodotti/{filter}")
@@ -57,6 +58,8 @@ public class ProdottiController {
 	
 	/**
 	 * This method prints out a list of fields with their number of elements
+	 * @param filter
+	 * @param field
 	 * @return a list of fields with their number of elements
 	 */
 	@GetMapping("/statstring")
@@ -66,6 +69,7 @@ public class ProdottiController {
 	}
 	/**
 	 * This method prints out a list of products filtered by logical or conditional operators
+	 * @param filter
 	 * @return a list of products filtered
 	 */
 	@PostMapping(path="/prodotti", consumes= {"application/JSON"})
@@ -75,6 +79,8 @@ public class ProdottiController {
 	
 	/**
 	 * This method prints out statistics of a field filtered or no
+	 * @param filter
+	 * @param field
 	 * @return statistics of a field
 	 */
 	@GetMapping("/stats")

@@ -42,6 +42,10 @@ public class ProdottiService implements InterfaceService, Utility{
 	private static List<String> filtro;
 	private static Item item;
 
+	/**
+	 * constructor that will download the file csv using {@link parseJSON.DownloadCSV}
+	 * after that it will save the dataset in a List of {@link product.Prodotti} object
+	 */
 
 	public ProdottiService(){
 		download=new DownloadCSV("http://data.europa.eu/euodp/data/api/3/action/package_show?id=eu-prices-for-selected-dairy-products");
@@ -184,11 +188,10 @@ public class ProdottiService implements InterfaceService, Utility{
 	}
 
 		
-	//get keys and values form filter string
+	
 	/**
-	 * 
+	 * get keys and values form filter string
 	 * @param jsonObj is the json object extract from the filter
-	 * @return keys and values from filter string
 	 */
 	public void printJsonObject(JSONObject jsonObj) {
 	    for (Object key : jsonObj.keySet()) {
@@ -211,7 +214,8 @@ public class ProdottiService implements InterfaceService, Utility{
 	}
 	
 	/**
-	 * 
+	 * This method gets the request's body (filter) and parse it like a JSON
+	 * then it controls which field is called and depends on that will call {@link #opString(String s, String op,String dati) opString()} or {@link #opPrezzo(double price, String op,String dati) opPrezzo} or send a bad request
 	 * @param filter is the filter
 	 * @return for each case a list of product get by filter
 	 */
@@ -266,7 +270,7 @@ public class ProdottiService implements InterfaceService, Utility{
 	 * 
 	 * @param price is the price of element
 	 * @param op is the operation
-	 * @param dati
+	 * @param dati are the parameters passed on the filter
 	 * @return two conditional operator
 	 */
 	public boolean opPrezzo(double price, String op,String dati) {
@@ -287,7 +291,7 @@ public class ProdottiService implements InterfaceService, Utility{
 				break;
 			
 			default:
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "field " + op + " not suported");
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "operator " + op + " not suported, only supported $bt, $gt");
 				
 			
 		}
@@ -296,9 +300,9 @@ public class ProdottiService implements InterfaceService, Utility{
 	
 	/**
 	 * 
-	 * @param s
+	 * @param s contains the return of get{Field} method
 	 * @param op is the operation
-	 * @param dati
+	 * @param dati are the parameters passed on the filter
 	 * @return two logical operator
 	 */
 	public boolean opString(String s, String op,String dati) {
@@ -327,7 +331,7 @@ public class ProdottiService implements InterfaceService, Utility{
 				break;
 			
 			default:
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "field " + op + " not suported");
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "operator " + op + " not suported, only supported $in, $not");
 				
 			
 		}
@@ -335,7 +339,8 @@ public class ProdottiService implements InterfaceService, Utility{
 	}
 	
 	/**
-	 * 
+	 * This method count how many times a word(string fields) is repeated
+	 * It uses {@link #getProductByCodeFiltro(String filter) getProductByCodeFiltro} and  {@link #getAllProducts() getAllProducts} depending if there's a filter or no
 	 * @param field
 	 * @param filter 
 	 * @return count element of two field, desc and country
@@ -384,7 +389,8 @@ public class ProdottiService implements InterfaceService, Utility{
 	}
 
 	/**
-	 * 
+	 * This method gets the statistics for the field passed on the request
+	 * It uses the inherited methods from the {@link Utility}
 	 * @param filter
 	 * @param field
 	 * @return an item with all statistics data

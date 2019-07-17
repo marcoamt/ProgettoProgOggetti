@@ -1,5 +1,9 @@
 package product;
-
+/**
+ * 
+ * Abstract class that includes the common attributes of products with their get/set methods
+ *
+ */
 public abstract class ProductAbs {
 	private String category;
 	private int productCode;
@@ -34,7 +38,7 @@ public abstract class ProductAbs {
 
 	/**
 	 * 
-	 * @param desc is the description of products
+	 * @return desc is the description of products
 	 */
 	public String getDesc() {
 		return desc;
