@@ -1,6 +1,6 @@
 # ProgettoProgOggetti
-L'aplicazione sviluppata è una applicazione REST API che ricava i dati da un dataset contenuto all'interno di un file csv e consente di effettuare alcune operazioni statistiche sui campi e operazioni di ricerca attraverso l'utilizzo di filtri. Queste feature dell'applicazione vengono soddisfatte grazie all'utilizzo del framework Spring usando il modello MVC.
-L'utente per avere dei risultati dovrà andare su un web browser o su un tool come Postman per inoltrare le richieste specificando una delle seguenti rotte utilizzando anche specifici filtri sui dati.
+L'aplicazione sviluppata è una applicazione REST API che ricava i dati da un dataset contenuto all'interno di un file csv e consente di effettuare alcune operazioni statistiche sui campi e operazioni di ricerca attraverso l'utilizzo di filtri. In generale, l'applicazione prende un url dove va a cercare, dopo aver fatto il parse json, il nome del file .csv da scaricare. Una volta trovato, effettua il download ed istanzia ogni record del dataset come un oggetto della classe Prodotti. L'utente potrà inoltrare delle richieste al servizio rest specificando una delle seguenti rotte ed aggiungendo eventuali filtri sui dati. Queste feature dell'applicazione vengono soddisfatte grazie all'utilizzo del framework Spring usando il modello MVC.
+
 
 ## Rotte 
 Le rotte utilizzate nell'applicazione per fare le diverse richieste sono le seguenti:
@@ -19,7 +19,7 @@ I filtri implementati sono $bt, $gt, $in e $not.
 ## Formato dati 
 A seguito del tipo di richiesta effettuata, il formato con cui i dati sarranno restituiti è il formato JSON che rappresenta un array di oggetti con i dati del dataset. 
 
-> ##GET/prodotti
+> **GET**/prodotti
 ```json
     {
         "category": "Dairy products",
@@ -45,7 +45,7 @@ A seguito del tipo di richiesta effettuata, il formato con cui i dati sarranno r
     }
 ```
 
-> GET/metadata
+> **GET**/metadata
 ```json
     {
         "alias": "sectorCode",
@@ -64,7 +64,7 @@ A seguito del tipo di richiesta effettuata, il formato con cui i dati sarranno r
     }
  ```
  
-> POST/prodotti
+> **POST**/prodotti
 > - corpo della richiesta contiene il filtro {"prezzo": {"$bt": [30.45,30.47]}}    
 ``` json
     {
@@ -141,7 +141,7 @@ A seguito del tipo di richiesta effettuata, il formato con cui i dati sarranno r
     }
 ``` 
 
-> GET/statstring?field=desc&filter={"prezzo": {"$bt": [20, 30]}}
+> **GET**/statstring?field=desc&filter={"prezzo": {"$bt": [20, 30]}}
 ```json
     {
         "element": "Whey Powder",
@@ -153,7 +153,7 @@ A seguito del tipo di richiesta effettuata, il formato con cui i dati sarranno r
     }
 ```
 
-> GET/prodotti/1107
+> **GET**/prodotti/1107
 ```json
     {
         "category": "Dairy products",
@@ -179,7 +179,7 @@ A seguito del tipo di richiesta effettuata, il formato con cui i dati sarranno r
     },
 ```
 
-> GET/stats?field=prezzo&filter={"prezzo": {"$gt": 30}} 
+> **GET**/stats?field=prezzo&filter={"prezzo": {"$gt": 30}} 
 ``` json
 {
     "field": "prezzo",                          
@@ -192,7 +192,7 @@ A seguito del tipo di richiesta effettuata, il formato con cui i dati sarranno r
 }
 ```
 
-> GET/stats?field=prezzo
+> **GET**/stats?field=prezzo
 ``` json
 {
     "field": "prezzo",
