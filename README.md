@@ -1,5 +1,6 @@
 # ProgettoProgOggetti
-L'aplicazione sviluppata è una applicazone che ricava i dati da un dataset contenuto all'interno di un file csv e consente di effettuare alcune operazioni statistiche sui campi e operazioni di ricerca attraverso l'utilizzo di filtri. 
+L'aplicazione sviluppata è una applicazione REST API che ricava i dati da un dataset contenuto all'interno di un file csv e consente di effettuare alcune operazioni statistiche sui campi e operazioni di ricerca attraverso l'utilizzo di filtri. Queste feature dell'applicazione vengono soddisfate grazie all'utilizzo del framework Spring usando il modello MVC.
+L'utente per avere dei risultati dovrà andare su un web browser o su un tool come Postman per inoltrare le richieste specificando una delle seguenti rotte utilizzando anche specifici filtri sui dati.
 
 ## Rotte 
 Le rotte utilizzate nell'applicazione per fare le diverse richieste sono le seguenti:
