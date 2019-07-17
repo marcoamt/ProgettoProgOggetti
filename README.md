@@ -7,14 +7,16 @@ Le rotte utilizzate nell'applicazione per fare le diverse richieste sono le segu
 - GET/prodotti: restituisce l'elenco di tutti i tipi di prodotti presenti all'interno del dataset
 - GET/metadata: restiruisce la descrizione dei tipi di dati presenti all'interno del dataset
 - POST/prodotti: in questa richiesta i dati vengono passati nel corpo della richiesta. Il corpo della richiesta conterrà il filtro che     sarà applicato sui dati del dataset 
-
-## Filtri
-I filtri utilizzati nelle diverse richieste sono i seguenti:
 - GET/prodotti/{filter}: restituisce un elenco di prodotti il cui codice (product code) è uguale al filtro
 - GET/statstring: restituisce il numero di elementi appartenenti ad un campo di tipo stringa passato come parametro
 - GET/stats: restituisce i dati statistici generali di un campo filtrato o meno
 
-I filtri implementati sono $bt, $gt, $in e $not.
+## Filtri
+I filtri implementati sono:
+- $bt: questo filtro ci consente di filtrare il campo prezzo avendo i prezzi compresi in un intervallo di valori
+- $gt: questo filtro ci consente di filtrare il campo prezzo avendo i prezzi maggiori di un certo valore
+- $in: questo filtro ci sonsente di filtrare i campi di tipo stringa, desc e country, vedendo se il valore dei campi è presente                nell'array del filtro
+- $not: questo filtro ci sonsente di filtrare i campi di tipo stringa, desc e country, vedendo se il valore dei campi non è presente                nell'array del filtro
 
 ## Formato dati 
 A seguito del tipo di richiesta effettuata, il formato con cui i dati sarranno restituiti è il formato JSON che rappresenta un array di oggetti con i dati del dataset. 
@@ -214,32 +216,3 @@ A seguito del tipo di richiesta effettuata, il formato con cui i dati sarranno r
 ## Sequence diagram
 ![UML](https://github.com/marcoamt/ProgettoProgOggetti/blob/master/sequencediagram.png)
 ```mermaid
-sequenceDiagram
-
-partecipant PoProjectApplication
-participant ProdottiController
-participant ProdottiService
-participant DownloadCSV
-
-PoProjectApplication ->> ProdottiService: init()
-
-ProdottiService ->>+DownloadCSV: Download file csv
-DownloadCSV-->>-ProdottiService: file csv
-
-ProdottiController->>+ProdottiService: getAllProducts()
-ProdottiService-->>-ProdottiController: products
-
-ProdottiController->>+ProdottiService: getAllMeta()
-ProdottiService-->>-ProdottiController: metadata
-
-ProdottiController->>+ProdottiService: getProductByCode(filter)
-ProdottiService-->>-ProdottiController: products by code
-
-ProdottiController->>+ProdottiService: getCountElem(filter, field)
-ProdottiService-->>-ProdottiController: count list
-
-ProdottiController->>+ProdottiService: getProductByCodeFiltro(filter)
-ProdottiService-->>-ProdottiController: products by filtro
-
-ProdottiController->>+ProdottiService: getStatsFiltro(filter, field)
-ProdottiService-->>-ProdottiController: stats
