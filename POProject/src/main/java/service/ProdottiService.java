@@ -62,11 +62,13 @@ public class ProdottiService implements InterfaceService, Utility{
 			   while ( ( line = br.readLine() ) != null ) {
 	
 				   if(i!=0) {
-				   data=line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");   
+				   //data=line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+					   data=line.split(",");    
 					   if(data.length == meta.size()){
 						   products.add(new Prodotti(data[0],data[1],Integer.parseInt(data[2]),data[3],data[4],data[5],data[6],Integer.parseInt(data[7]),Double.parseDouble(data[8])));
 					   }else{
-						   System.out.println(meta.get(data.length));
+						   System.out.println("Numero di informazioni della riga [" + i + "] non coincide con il numero di campi del dataset");
+							System.exit(1);
 					   }
 				   }else {
 					   data=line.split(","); 
