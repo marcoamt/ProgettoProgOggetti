@@ -62,8 +62,7 @@ public class ProdottiService implements InterfaceService, Utility{
 			   while ( ( line = br.readLine() ) != null ) {
 	
 				   if(i!=0) {
-				   //data=line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
-					   data=line.split(",");    
+				   data=line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
 					   if(data.length == meta.size()){
 						   products.add(new Prodotti(data[0],data[1],Integer.parseInt(data[2]),data[3],data[4],data[5],data[6],Integer.parseInt(data[7]),Double.parseDouble(data[8])));
 					   }else{
