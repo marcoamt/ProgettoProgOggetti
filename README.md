@@ -205,13 +205,13 @@ A seguito del tipo di richiesta effettuata, il formato con cui i dati sarranno r
 ```
 
 ## UML diagram
-![UML](https://github.com/marcoamt/ProgettoProgOggetti/blob/master/POProject/UML.png)
+![UML](https://github.com/marcoamt/ProgettoProgOggetti/UML.png)
 
 ## Use case diagram
-![UML](https://github.com/marcoamt/ProgettoProgOggetti/blob/master/POProject/usecasediagram.png)
+![UML](https://github.com/marcoamt/ProgettoProgOggetti/usecasediagram.png)
 
 ## Sequence diagram
-![UML](https://github.com/marcoamt/ProgettoProgOggetti/blob/master/POProject/sequencediagram.png)
+![UML](https://github.com/marcoamt/ProgettoProgOggetti/sequencediagram.png)
 ```mermaid
 sequenceDiagram
 
